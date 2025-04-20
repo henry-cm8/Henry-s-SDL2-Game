@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1745139135 source:d:\son hai\advanced programming\henry's sdl2 game\core\engine.cpp
+	"Engine.h"
+
+1745140407 d:\son hai\advanced programming\henry's sdl2 game\core\engine.h
+	"SDL.h"
+	<iostream>
+
+1745140326 source:d:\son hai\advanced programming\henry's sdl2 game\main.cpp
+	<iostream>
+	"Engine.h"
+

@@ -2,14 +2,12 @@
 #define ENGINE_H
 #include "SDL.h"
 
-#define SCREEN_WIDTH 1024
-#define SCREEN_HEIGHT 768
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 600
 
 class Engine
 {
     public:
-        Engine* m_Engine;
-        Engine();
 
         bool Init();
         bool IsRunning() { return running; }
@@ -18,10 +16,13 @@ class Engine
         void Render();
         void Clean();
 
-        bool running;
 
-        SDL_Window* window = nullptr;
-        SDL_Renderer* renderer = nullptr;
+
+        bool running;
+        SDL_Window* window;
+        SDL_Renderer* renderer;
+
+        Engine();
 
 };
 

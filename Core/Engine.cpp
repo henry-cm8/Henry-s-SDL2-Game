@@ -1,8 +1,13 @@
 #include "Engine.h"
 
+Engine::Engine() {}
+
+SDL_Window* window = nullptr;
+SDL_Renderer* renderer = nullptr;
+
 bool Engine::Init()
 {
-    if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+    if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
         SDL_Log("Failed to Initialize SDL: %s", SDL_GetError());
         return false;
@@ -28,12 +33,17 @@ bool Engine::Init()
 
 void Engine::HandleEvents()
 {
-
+    SDL_Event e;
+    while (SDL_PollEvent(&e))
+    {
+        if (e.type == SDL_QUIT)
+            running = false;
+    }
 }
 
 void Engine::Update()
 {
-
+    std::cout<<"Updating..."<<std::endl;
 }
 
 void Engine::Render()
