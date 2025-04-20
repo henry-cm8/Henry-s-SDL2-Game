@@ -3,8 +3,7 @@
 
 Engine::Engine() {}
 
-//SDL_Window* window = nullptr;
-//SDL_Renderer* renderer = nullptr;
+
 
 bool Engine::Init()
 {
@@ -39,6 +38,12 @@ bool Engine::Init()
     fieldtexture = IMG_LoadTexture(renderer, "assets/footballfield.jpg");
     fieldrect = {0, 180, 1280, 540};
 
+    //Player
+    messi = new Player(renderer);
+
+    //DeltaTime
+    lastTick = SDL_GetTicks();
+    deltaTime = 0.0f;
 
     running = true;
     return true;
@@ -51,12 +56,25 @@ void Engine::HandleEvents()
     {
         if (e.type == SDL_QUIT)
             running = false;
+        else
+        {
+            const Uint8* keystates = SDL_GetKeyboardState(nullptr);
+            messi->HandleInput(keystates);
+        }
     }
 }
 
 void Engine::Update()
 {
+    Uint32 currentTick = SDL_GetTicks();
+    deltaTime = (currentTick - lastTick) / 1000.0f;
+    lastTick = currentTick;
 
+    //const Uint8* keystates = SDL_GetKeyboardState(nullptr);
+    //messi->HandleInput(keystates);
+
+
+    messi->Update(deltaTime);
 }
 
 void Engine::Render()
@@ -67,11 +85,14 @@ void Engine::Render()
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, fieldtexture, nullptr, &fieldrect);
 
+    messi->Render(renderer);
+
     SDL_RenderPresent(renderer);
 }
 
 void Engine::Clean()
 {
+    delete messi;
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     IMG_Quit();

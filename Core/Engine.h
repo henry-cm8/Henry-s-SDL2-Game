@@ -2,6 +2,7 @@
 #define ENGINE_H
 #include "SDL.h"
 #include "SDL_image.h"
+#include "Player.h"
 
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
@@ -18,6 +19,9 @@ class Engine
         void Render();
         void Clean();
 
+        Uint32 lastTick;
+        float deltaTime;
+
 
     private:
         bool running;
@@ -27,6 +31,8 @@ class Engine
         //Load FootballField
         SDL_Texture* fieldtexture;
         SDL_Rect fieldrect;
+
+        Player* messi;
 
 };
 
