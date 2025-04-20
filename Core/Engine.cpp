@@ -1,9 +1,10 @@
 #include "Engine.h"
 
+
 Engine::Engine() {}
 
-SDL_Window* window = nullptr;
-SDL_Renderer* renderer = nullptr;
+//SDL_Window* window = nullptr;
+//SDL_Renderer* renderer = nullptr;
 
 bool Engine::Init()
 {
@@ -34,12 +35,10 @@ bool Engine::Init()
         SDL_Log("Failed to create renderer: %s", SDL_GetError());
         return false;
     }
-
     //Load FootballField
-    SDL_Surface* fieldsurface = IMG_Load("assets/field/footballfield.jpg");
-    SDL_Texture* fieldtexture = SDL_CreateTextureFromSurface(renderer, fieldsurface);
-    SDL_FreeSurface(fieldsurface);
-    SDL_Rect fieldrect {0, 180, SCREEN_WIDTH, 540};
+    fieldtexture = IMG_LoadTexture(renderer, "assets/footballfield.jpg");
+    fieldrect = {0, 180, 1280, 540};
+
 
     running = true;
     return true;
@@ -64,12 +63,17 @@ void Engine::Render()
 {
     //Football Field: Background
 
+    //SDL_RenderCopy(renderer, fieldtexture, nullptr, nullptr);
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, fieldtexture, nullptr, &fieldrect);
 
+    SDL_RenderPresent(renderer);
 }
 
 void Engine::Clean()
 {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    IMG_Quit();
     SDL_Quit();
 }

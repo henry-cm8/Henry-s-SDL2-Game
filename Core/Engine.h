@@ -3,13 +3,14 @@
 #include "SDL.h"
 #include "SDL_image.h"
 
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 600
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 720
 
 class Engine
 {
     public:
 
+        Engine();
         bool Init();
         bool IsRunning() { return running; }
         void HandleEvents();
@@ -18,12 +19,14 @@ class Engine
         void Clean();
 
 
-
+    private:
         bool running;
         SDL_Window* window;
         SDL_Renderer* renderer;
 
-        Engine();
+        //Load FootballField
+        SDL_Texture* fieldtexture;
+        SDL_Rect fieldrect;
 
 };
 
