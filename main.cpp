@@ -1,9 +1,7 @@
-#include "SDL.h"
 #include <iostream>
+#include "SDL.h"
 
-using namespace std;
-
-int main(int argc, char* argv)
+int main(int argc, char* argv[])
 {
     std::cout << "Hello world!" << std::endl;
     return 0;
