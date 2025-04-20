@@ -7,9 +7,17 @@ SDL_Renderer* renderer = nullptr;
 
 bool Engine::Init()
 {
+    //SDL Init
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
         SDL_Log("Failed to Initialize SDL: %s", SDL_GetError());
+        return false;
+    }
+    //SDL Image Init
+    int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
+    if (!(IMG_Init(imgFlags) & imgFlags))
+    {
+        SDL_Log("Failed to Initialize SDL_image: %s", SDL_GetError());
         return false;
     }
     //Create Window
@@ -27,6 +35,12 @@ bool Engine::Init()
         return false;
     }
 
+    //Load FootballField
+    SDL_Surface* fieldsurface = IMG_Load("assets/field/footballfield.jpg");
+    SDL_Texture* fieldtexture = SDL_CreateTextureFromSurface(renderer, fieldsurface);
+    SDL_FreeSurface(fieldsurface);
+    SDL_Rect fieldrect {0, 180, SCREEN_WIDTH, 540};
+
     running = true;
     return true;
 }
@@ -43,11 +57,13 @@ void Engine::HandleEvents()
 
 void Engine::Update()
 {
-    std::cout<<"Updating..."<<std::endl;
+
 }
 
 void Engine::Render()
 {
+    //Football Field: Background
+
 
 }
 

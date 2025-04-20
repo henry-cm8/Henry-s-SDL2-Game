@@ -1,6 +1,7 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 #include "SDL.h"
+#include "SDL_image.h"
 
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
