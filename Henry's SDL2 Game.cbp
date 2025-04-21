@@ -13,6 +13,8 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="Core" />
+					<Add directory="Objects/" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -22,6 +24,8 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="Core" />
+					<Add directory="Objects/" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -32,6 +36,14 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="Core/Engine.cpp" />
+		<Unit filename="Core/Engine.h" />
+		<Unit filename="Objects/Player.cpp" />
+		<Unit filename="Objects/Player.h" />
+		<Unit filename="assets/bg.jfif" />
+		<Unit filename="assets/field.jpg" />
+		<Unit filename="assets/footballfield.jpg" />
+		<Unit filename="assets/player/messi.png" />
 		<Unit filename="main.cpp" />
 		<Extensions />
 	</Project>

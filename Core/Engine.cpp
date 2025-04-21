@@ -56,10 +56,12 @@ void Engine::HandleEvents()
     {
         if (e.type == SDL_QUIT)
             running = false;
-        else
+        else if (e.type == SDL_KEYDOWN)
         {
-            const Uint8* keystates = SDL_GetKeyboardState(nullptr);
-            messi->HandleInput(keystates);
+            if (e.key.keysym.sym == SDLK_ESCAPE)
+            {
+                running = false;
+            }
         }
     }
 }
@@ -70,8 +72,8 @@ void Engine::Update()
     deltaTime = (currentTick - lastTick) / 1000.0f;
     lastTick = currentTick;
 
-    //const Uint8* keystates = SDL_GetKeyboardState(nullptr);
-    //messi->HandleInput(keystates);
+    const Uint8* keystates = SDL_GetKeyboardState(nullptr);
+    messi->HandleInput(keystates);
 
 
     messi->Update(deltaTime);
