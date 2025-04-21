@@ -22,7 +22,7 @@ Player::Player(SDL_Renderer* renderer)
     dstRect = {1100, 270, 180, 180};
     collisionBox = {dstRect.x, dstRect.y+135, 45, 45};
 
-    speed = 1000.0f;
+    speed = 500.0f;
 
 }
 
