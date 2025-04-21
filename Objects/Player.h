@@ -19,7 +19,11 @@ class Player
         Uint32 lastFrameTime;
         int frameWidth;
         int frameHeight;
-        int numFrames;
+
+        int numFramesLeft;
+        int numFramesRight;
+        //int numFramesUp;
+        //int numFramesDown;
 
     private:
         SDL_Rect srcRect;
@@ -27,6 +31,9 @@ class Player
         SDL_Rect collisionBox;
         SDL_Texture* playerTex;
         SDL_Texture* idleTex;
+        SDL_Texture* rightTex;
+        SDL_Texture* upTex;
+        SDL_Texture* downTex;
 
 
         float speed;
