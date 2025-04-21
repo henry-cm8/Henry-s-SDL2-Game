@@ -6,24 +6,24 @@ Player::Player(SDL_Renderer* renderer)
 
     srcRect = {0, 0, 180, 180};
     dstRect = {1100, 270, 180, 180};
-    speed = 10;
+    collisionBox = {dstRect.x, dstRect.y+90, 90, 90};
+
+    speed = 1;
 
 }
 
-void Player::HandleInput(const Uint8* keystates)
+void Player::HandleInput(SDL_Event e)
 {
 
-    if (keystates[SDL_SCANCODE_UP]) {
-        dstRect.y -= speed;
-    }
-    if (keystates[SDL_SCANCODE_DOWN]) {
-        dstRect.y += speed;
-    }
-    if (keystates[SDL_SCANCODE_RIGHT]) {
-        dstRect.x += speed;
-    }
-    if (keystates[SDL_SCANCODE_LEFT]) {
-        dstRect.x -= speed;
+    if (e.type == SDL_KEYDOWN) //&& e.key.repeat == 0)
+    {
+        switch (e.key.keysym.sym)
+        {
+            case SDLK_UP:    velY = -speed; break;
+            case SDLK_DOWN:  velY = speed;  break;
+            case SDLK_LEFT:  velX = -speed; break;
+            case SDLK_RIGHT: velX = speed;  break;
+        }
     }
 
 }
@@ -32,8 +32,14 @@ void Player::Update()
 {
 
     //Position
-    //dstRect.x += (velX*speed);
-    //dstRect.y += (velY*speed);
+    dstRect.x += velX;
+    dstRect.y += velY;
+
+    //Wall detection
+    if (dstRect.y < 90) dstRect.y = 90;
+    if (dstRect.y + dstRect.h > SCREEN_HEIGHT) dstRect.y = SCREEN_HEIGHT - dstRect.h;
+    if (dstRect.x < 0) dstRect.x = 0;
+    if (dstRect.x > SCREEN_WIDTH-dstRect.w) dstRect.x = SCREEN_WIDTH - dstRect.w;
 
 }
 

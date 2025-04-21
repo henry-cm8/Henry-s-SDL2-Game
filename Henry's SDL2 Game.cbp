@@ -41,10 +41,12 @@
 		<Unit filename="Core/Engine.h" />
 		<Unit filename="Objects/Player.cpp" />
 		<Unit filename="Objects/Player.h" />
-		<Unit filename="assets/bg.jfif" />
 		<Unit filename="assets/field.jpg" />
 		<Unit filename="assets/footballfield.jpg" />
 		<Unit filename="assets/player/messi.png" />
+		<Unit filename="assets/player/messi1.png" />
+		<Unit filename="assets/player/messi2.png" />
+		<Unit filename="assets/player/messi3.png" />
 		<Unit filename="assets/player/messitest.png" />
 		<Unit filename="main.cpp" />
 		<Extensions />

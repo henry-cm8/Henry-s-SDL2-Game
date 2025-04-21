@@ -52,20 +52,19 @@ bool Engine::Init()
 
 void Engine::HandleEvents()
 {
-    /*
+
     SDL_Event e;
     while (SDL_PollEvent(&e))
     {
         if (e.type == SDL_QUIT)
             running = false;
+        else
+            messi->HandleInput(e);
+
     }
-    */
-    const Uint8* keystates = SDL_GetKeyboardState(nullptr);
-    if (keystates[SDL_SCANCODE_ESCAPE]) running = false;
-    else
-    messi->HandleInput(keystates);
 
-
+    //const Uint8* keystates = SDL_GetKeyboardState(nullptr);
+    //messi->HandleInput(keystates);
 }
 
 void Engine::Update()
