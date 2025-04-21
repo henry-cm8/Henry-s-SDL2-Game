@@ -10,7 +10,7 @@ class Player
         Player(SDL_Renderer* renderer);
 
         void HandleInput(const Uint8* keystates);
-        void Update(float deltaTime);
+        void Update();
         void Render(SDL_Renderer* renderer);
 
 

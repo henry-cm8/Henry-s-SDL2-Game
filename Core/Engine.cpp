@@ -40,10 +40,11 @@ bool Engine::Init()
 
     //Player
     messi = new Player(renderer);
+    messi->Render(renderer);
 
     //DeltaTime
-    lastTick = SDL_GetTicks();
-    deltaTime = 0.0f;
+    //lastTick = SDL_GetTicks();
+    //deltaTime = 0.0f;
 
     running = true;
     return true;
@@ -56,21 +57,16 @@ void Engine::HandleEvents()
     {
         if (e.type == SDL_QUIT)
             running = false;
-        else if (e.type == SDL_KEYDOWN)
-        {
-            if (e.key.keysym.sym == SDLK_ESCAPE)
-            {
-                running = false;
-            }
-        }
     }
+
+
 }
 
 void Engine::Update()
 {
-    Uint32 currentTick = SDL_GetTicks();
-    deltaTime = (currentTick - lastTick) / 1000.0f;
-    lastTick = currentTick;
+    //Uint32 currentTick = SDL_GetTicks();
+    //deltaTime = (currentTick - lastTick) / 1000.0f;
+    //lastTick = currentTick;
 
     const Uint8* keystates = SDL_GetKeyboardState(nullptr);
     messi->HandleInput(keystates);

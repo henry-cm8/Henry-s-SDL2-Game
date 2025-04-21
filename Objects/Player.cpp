@@ -2,30 +2,38 @@
 
 Player::Player(SDL_Renderer* renderer)
 {
-    playerTex = IMG_LoadTexture(renderer, "assets/player/messi.png");
+    playerTex = IMG_LoadTexture(renderer, "assets/player/messitest.png");
 
     srcRect = {0, 0, 180, 180};
     dstRect = {1100, 270, 180, 180};
-    speed = 400;
+    speed = 10;
 
 }
 
 void Player::HandleInput(const Uint8* keystates)
 {
-    bool moving = false;
-    if (keystates[SDL_SCANCODE_UP]) { velY = -1 ; moving = true; }
-    if (keystates[SDL_SCANCODE_DOWN]) { velY = 1 ; moving = true; }
-    if (keystates[SDL_SCANCODE_RIGHT]) { velX = 1; moving = true; }
-    if (keystates[SDL_SCANCODE_LEFT]) { velX = -1; moving = true; }
+
+    if (keystates[SDL_SCANCODE_UP]) {
+        dstRect.y -= speed;
+    }
+    if (keystates[SDL_SCANCODE_DOWN]) {
+        dstRect.y += speed;
+    }
+    if (keystates[SDL_SCANCODE_RIGHT]) {
+        dstRect.x += speed;
+    }
+    if (keystates[SDL_SCANCODE_LEFT]) {
+        dstRect.x -= speed;
+    }
 
 }
 
-void Player::Update(float deltaTime)
+void Player::Update()
 {
 
     //Position
-    dstRect.x += (velX*speed*deltaTime);
-    dstRect.y += (velY*speed*deltaTime);
+    //dstRect.x += (velX*speed);
+    //dstRect.y += (velY*speed);
 
 }
 
