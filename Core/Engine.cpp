@@ -52,12 +52,18 @@ bool Engine::Init()
 
 void Engine::HandleEvents()
 {
+    /*
     SDL_Event e;
     while (SDL_PollEvent(&e))
     {
         if (e.type == SDL_QUIT)
             running = false;
     }
+    */
+    const Uint8* keystates = SDL_GetKeyboardState(nullptr);
+    if (keystates[SDL_SCANCODE_ESCAPE]) running = false;
+    else
+    messi->HandleInput(keystates);
 
 
 }
@@ -68,11 +74,11 @@ void Engine::Update()
     //deltaTime = (currentTick - lastTick) / 1000.0f;
     //lastTick = currentTick;
 
-    const Uint8* keystates = SDL_GetKeyboardState(nullptr);
-    messi->HandleInput(keystates);
+    //const Uint8* keystates = SDL_GetKeyboardState(nullptr);
+    //messi->HandleInput(keystates);
 
 
-    messi->Update(deltaTime);
+    messi->Update();
 }
 
 void Engine::Render()

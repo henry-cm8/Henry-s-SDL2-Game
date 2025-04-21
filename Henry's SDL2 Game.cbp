@@ -34,6 +34,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-std=c++17" />
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="Core/Engine.cpp" />
@@ -44,6 +45,7 @@
 		<Unit filename="assets/field.jpg" />
 		<Unit filename="assets/footballfield.jpg" />
 		<Unit filename="assets/player/messi.png" />
+		<Unit filename="assets/player/messitest.png" />
 		<Unit filename="main.cpp" />
 		<Extensions />
 	</Project>
