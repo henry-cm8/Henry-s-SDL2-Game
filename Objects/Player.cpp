@@ -15,7 +15,7 @@ Player::Player(SDL_Renderer* renderer)
 void Player::HandleInput(SDL_Event e)
 {
 
-    if (e.type == SDL_KEYDOWN) //&& e.key.repeat == 0)
+    if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
     {
         switch (e.key.keysym.sym)
         {
@@ -25,6 +25,21 @@ void Player::HandleInput(SDL_Event e)
             case SDLK_RIGHT: velX = speed;  break;
         }
     }
+
+    if (e.type == SDL_KEYUP && e.key.repeat == 0)
+    {
+        switch (e.key.keysym.sym)
+        {
+            case SDLK_UP:
+            case SDLK_DOWN:
+            case SDLK_LEFT:
+            case SDLK_RIGHT:
+                velX = 0; // stop horizontal movement
+                velY = 0;
+                break;
+        }
+    }
+
 
 }
 
