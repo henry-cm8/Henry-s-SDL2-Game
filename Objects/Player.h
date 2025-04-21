@@ -10,7 +10,7 @@ class Player
     public:
         Player(SDL_Renderer* renderer);
 
-        void HandleInput(SDL_Event e);
+        void HandleInput();
         void Update();
         void Render(SDL_Renderer* renderer);
 

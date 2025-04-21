@@ -12,9 +12,18 @@ Player::Player(SDL_Renderer* renderer)
 
 }
 
-void Player::HandleInput(SDL_Event e)
+void Player::HandleInput()
 {
+    const Uint8* keystate = SDL_GetKeyboardState(NULL);
+    velX = 0;
+    velY = 0;
 
+    if (keystate[SDL_SCANCODE_LEFT]) velX = -speed;
+    if (keystate[SDL_SCANCODE_RIGHT]) velX = speed;
+    if (keystate[SDL_SCANCODE_UP]) velY = -speed;
+    if (keystate[SDL_SCANCODE_DOWN]) velY = speed;
+
+    /*
     if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
     {
         switch (e.key.keysym.sym)
@@ -28,19 +37,21 @@ void Player::HandleInput(SDL_Event e)
 
     if (e.type == SDL_KEYUP && e.key.repeat == 0)
     {
+        //for smoother movement
         switch (e.key.keysym.sym)
         {
             case SDLK_UP:
             case SDLK_DOWN:
+                velY = 0;
+                break;
+
             case SDLK_LEFT:
             case SDLK_RIGHT:
-                velX = 0; // stop horizontal movement
-                velY = 0;
+                velX = 0;
                 break;
         }
     }
-
-
+    */
 }
 
 void Player::Update()

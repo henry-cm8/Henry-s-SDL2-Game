@@ -58,11 +58,10 @@ void Engine::HandleEvents()
     {
         if (e.type == SDL_QUIT)
             running = false;
-        else
-            messi->HandleInput(e);
 
     }
 
+     messi->HandleInput();
     //const Uint8* keystates = SDL_GetKeyboardState(nullptr);
     //messi->HandleInput(keystates);
 }
