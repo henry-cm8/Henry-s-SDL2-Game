@@ -1,7 +1,7 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 #include "SDL.h"
-
+#include <iostream>
 
 #include "SDL_image.h"
 #include "Player.h"
@@ -21,7 +21,9 @@ class Engine
         void Render();
         void Clean();
 
+        Uint32 lastFrame;
         Uint32 currentTime;
+        float deltaTime;
 
         //Uint32 lastTick;
         //float deltaTime;

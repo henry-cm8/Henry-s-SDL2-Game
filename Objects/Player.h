@@ -11,7 +11,7 @@ class Player
         Player(SDL_Renderer* renderer);
 
         void HandleInput();
-        void Update(Uint32 currentTime);
+        void Update(Uint32 currentTime, float deltaTime);
         void Render(SDL_Renderer* renderer);
 
         int frame;
@@ -24,6 +24,8 @@ class Player
         int numFramesRight;
         //int numFramesUp;
         //int numFramesDown;
+        float posX;
+        float posY;
 
     private:
         SDL_Rect srcRect;

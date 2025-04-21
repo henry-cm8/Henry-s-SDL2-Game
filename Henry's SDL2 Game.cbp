@@ -44,10 +44,10 @@
 		<Unit filename="assets/field.jpg" />
 		<Unit filename="assets/footballfield.jpg" />
 		<Unit filename="assets/player/messi.png" />
-		<Unit filename="assets/player/messi1.png" />
-		<Unit filename="assets/player/messi2.png" />
-		<Unit filename="assets/player/messi3.png" />
-		<Unit filename="assets/player/messitest.png" />
+		<Unit filename="assets/player/messidown.png" />
+		<Unit filename="assets/player/messiright.png" />
+		<Unit filename="assets/player/messistill.png" />
+		<Unit filename="assets/player/messiup.png" />
 		<Unit filename="main.cpp" />
 		<Extensions />
 	</Project>

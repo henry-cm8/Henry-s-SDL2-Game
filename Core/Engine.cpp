@@ -34,6 +34,9 @@ bool Engine::Init()
         SDL_Log("Failed to create renderer: %s", SDL_GetError());
         return false;
     }
+
+    lastFrame = SDL_GetTicks();
+
     //Load FootballField
     fieldtexture = IMG_LoadTexture(renderer, "assets/footballfield.jpg");
     fieldrect = {0, 180, 1280, 540};
@@ -43,8 +46,7 @@ bool Engine::Init()
     messi->Render(renderer);
 
     //DeltaTime
-    //lastTick = SDL_GetTicks();
-    //deltaTime = 0.0f;
+
 
     running = true;
     return true;
@@ -62,28 +64,23 @@ void Engine::HandleEvents()
     }
 
      messi->HandleInput();
-    //const Uint8* keystates = SDL_GetKeyboardState(nullptr);
-    //messi->HandleInput(keystates);
 }
 
 void Engine::Update()
 {
-    //Uint32 currentTick = SDL_GetTicks();
-    //deltaTime = (currentTick - lastTick) / 1000.0f;
-    //lastTick = currentTick;
-
-    //const Uint8* keystates = SDL_GetKeyboardState(nullptr);
-    //messi->HandleInput(keystates);
-
     Uint32 currentTime = SDL_GetTicks();
-    messi->Update(currentTime);
+    deltaTime = (currentTime - lastFrame) / 1000.0f; //to seconds
+
+    std::cout<<deltaTime<<std::endl;
+    lastFrame = currentTime;
+
+    messi->Update(currentTime, deltaTime);
+
 }
 
 void Engine::Render()
 {
     //Football Field: Background
-
-    //SDL_RenderCopy(renderer, fieldtexture, nullptr, nullptr);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, fieldtexture, nullptr, &fieldrect);
 

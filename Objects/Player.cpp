@@ -22,7 +22,7 @@ Player::Player(SDL_Renderer* renderer)
     dstRect = {1100, 270, 180, 180};
     collisionBox = {dstRect.x, dstRect.y+135, 45, 45};
 
-    speed = 1;
+    speed = 1000.0f;
 
 }
 
@@ -32,46 +32,36 @@ void Player::HandleInput()
     velX = 0;
     velY = 0;
 
-    if (keystate[SDL_SCANCODE_LEFT]) velX = -speed;
-    if (keystate[SDL_SCANCODE_RIGHT]) velX = speed;
-    if (keystate[SDL_SCANCODE_UP]) velY = -speed;
-    if (keystate[SDL_SCANCODE_DOWN]) velY = speed;
+    if (keystate[SDL_SCANCODE_LEFT]) velX = -1;
+    if (keystate[SDL_SCANCODE_RIGHT]) velX = 1;
+    if (keystate[SDL_SCANCODE_UP]) velY = -1;
+    if (keystate[SDL_SCANCODE_DOWN]) velY = 1;
 
 }
 
-void Player::Update(Uint32 currentTime)
+void Player::Update(Uint32 currentTime, float deltaTime)
 {
 
     //Position
-    dstRect.x += velX;
-    dstRect.y += velY;
+    posX = dstRect.x;
+    posY = dstRect.y;
+
+    posX += (velX*speed*deltaTime);
+    posY += (velY*speed*deltaTime);
+
+    dstRect.x = static_cast<int>(posX);
+    dstRect.y = static_cast<int>(posY);
+
     //Collision box
     collisionBox.x = dstRect.x;
     collisionBox.y = dstRect.y+135;
 
-    //Animation
-    if (velX < 0)
+    if ((velX != 0 || velY != 0) && currentTime > lastFrameTime + frameDelay)
     {
-        //Left
-        if (currentTime > lastFrameTime + frameDelay)
-        {
-            frame = (frame+1)% numFramesLeft;
-            lastFrameTime = currentTime;
-        }
-    }
-    else if (velX > 0)
-    {
-        //Right
-        if (currentTime > lastFrameTime + frameDelay)
-        {
-            frame = (frame+1)% numFramesRight;
-            lastFrameTime = currentTime;
-        }
-    }
-
-    else
-    {
-        frame = 0;
+        if (velX < 0) frame = (frame+1) % numFramesLeft; //leftward
+        else if (velX > 0) frame = (frame+1) % numFramesRight; //rightward
+        else frame=0; //vertical and idle uses single frame
+        lastFrameTime = currentTime;
     }
 
     //Wall detection
@@ -113,6 +103,7 @@ void Player::Render(SDL_Renderer* renderer)
         //Down
         srcRect.x = 0;
         SDL_RenderCopy(renderer, downTex, &srcRect, &dstRect);
+
     }
 
 }
