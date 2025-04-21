@@ -75,8 +75,8 @@ void Engine::Update()
     //const Uint8* keystates = SDL_GetKeyboardState(nullptr);
     //messi->HandleInput(keystates);
 
-
-    messi->Update();
+    Uint32 currentTime = SDL_GetTicks();
+    messi->Update(currentTime);
 }
 
 void Engine::Render()

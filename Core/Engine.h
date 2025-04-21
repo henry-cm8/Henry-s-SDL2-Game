@@ -21,6 +21,8 @@ class Engine
         void Render();
         void Clean();
 
+        Uint32 currentTime;
+
         //Uint32 lastTick;
         //float deltaTime;
 
