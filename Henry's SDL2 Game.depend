@@ -2,11 +2,13 @@
 1745232361 source:d:\son hai\advanced programming\henry's sdl2 game\core\engine.cpp
 	"Engine.h"
 
-1745231720 d:\son hai\advanced programming\henry's sdl2 game\core\engine.h
+1745259288 d:\son hai\advanced programming\henry's sdl2 game\core\engine.h
 	"SDL.h"
 	<iostream>
+	<vector>
 	"SDL_image.h"
 	"Player.h"
+	"Enemy.h"
 
 1745140326 source:d:\son hai\advanced programming\henry's sdl2 game\main.cpp
 	<iostream>
@@ -16,10 +18,55 @@
 	"SDL.h"
 	"SDL_image.h"
 
-1745227375 source:d:\son hai\advanced programming\henry's sdl2 game\objects\player.cpp
+1745253406 source:d:\son hai\advanced programming\henry's sdl2 game\objects\player.cpp
 	"Player.h"
 
 1745226398 d:\son hai\advanced programming\henry's sdl2 game\objects\player.h
 	"SDL.h"
 	"SDL_image.h"
+
+1745259289 d:\son hai\advanced programming\henry's sdl2 game\objects\\enemy.h
+	"SDL.h"
+	"SDL_image.h"
+	<cstdlib>
+	<ctime>
+
+1745288241 source:d:\sonhai\advancedprogramming\henrysdl2game\objects\player.cpp
+	"Player.h"
+
+1745288241 d:\sonhai\advancedprogramming\henrysdl2game\objects\player.h
+	"SDL.h"
+	"SDL_image.h"
+
+1745286674 source:d:\sonhai\advancedprogramming\henrysdl2game\objects\enemy.cpp
+	"Enemy.h"
+	<cstdlib>
+	<ctime>
+
+1745287895 d:\sonhai\advancedprogramming\henrysdl2game\objects\enemy.h
+	"SDL.h"
+	"SDL_image.h"
+
+1745259375 source:d:\sonhai\advancedprogramming\henrysdl2game\main.cpp
+	<iostream>
+	"Engine.h"
+
+1745284791 d:\sonhai\advancedprogramming\henrysdl2game\core\engine.h
+	"SDL.h"
+	<iostream>
+	<vector>
+	"SDL_image.h"
+	"Player.h"
+	"Enemy.h"
+
+1745288241 d:\sonhai\advancedprogramming\henrysdl2game\objects\\player.h
+	"SDL.h"
+	"SDL_image.h"
+
+1745294774 d:\sonhai\advancedprogramming\henrysdl2game\objects\\enemy.h
+	"SDL.h"
+	"SDL_image.h"
+
+1745288435 source:d:\sonhai\advancedprogramming\henrysdl2game\core\engine.cpp
+	"Engine.h"
 

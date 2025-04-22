@@ -107,3 +107,14 @@ void Player::Render(SDL_Renderer* renderer)
     }
 
 }
+
+SDL_Rect Player::GetCollisionBox() const
+{
+    return collisionBox;
+}
+
+SDL_Rect Player::GetRect() const
+{
+    return dstRect;
+}
+

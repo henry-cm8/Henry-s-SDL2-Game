@@ -1,0 +1,68 @@
+#include "Enemy.h"
+#include <cstdlib>
+#include <ctime>
+
+Enemy::Enemy(SDL_Renderer* renderer)
+{
+    enemyTex = IMG_LoadTexture(renderer, "assets/enemy/ramostackle.png");
+
+    frameWidth = 180;
+    frameHeight = 180;
+    numFrames = 8;
+    frame = 0;
+    frameDelay = 100;
+    lastFrameTime = 0;
+
+    speed = 200.0f;
+
+    srcRect = {0, 0, frameWidth, frameHeight};
+
+    //Field bound
+    int minY = 0;
+    int maxY = 720 - frameHeight;
+    posY = minY + rand() % (maxY - minY + 1);
+    posX = -frameWidth;
+
+    dstRect = { static_cast<int>(posX), static_cast<int>(posY), 225, 225};
+    collisionBox = {dstRect.x, dstRect.y+180, 90, 45};
+}
+
+Enemy::~Enemy()
+{
+    SDL_DestroyTexture(enemyTex);
+}
+
+void Enemy::Update(Uint32 currentTime, float deltaTime)
+{
+    //Move right
+    posX += (speed*deltaTime);
+    dstRect.x = static_cast<int>(posX);
+
+    //Animation Tackle
+    if (currentTime > lastFrameTime + frameDelay)
+    {
+        frame = (frame+1) % numFrames;
+        lastFrameTime = currentTime;
+    }
+
+    srcRect.x = frame * frameWidth;
+
+    //Collision
+    collisionBox.x = dstRect.x;
+    collisionBox.y = dstRect.y+180;
+}
+
+void Enemy::Render(SDL_Renderer* renderer)
+{
+    SDL_RenderCopy(renderer, enemyTex, &srcRect, &dstRect);
+}
+
+bool Enemy::IsOffScreen() const
+{
+    return dstRect.x > 1280;
+}
+
+SDL_Rect Enemy::GetRect() const
+{
+    return dstRect;
+}

@@ -15,6 +15,7 @@
 					<Add option="-g" />
 					<Add directory="Core" />
 					<Add directory="Objects/" />
+					<Add directory="D:/Son Hai/Advanced Programming/Henry&apos;s SDL2 Game/Objects/" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -26,6 +27,7 @@
 					<Add option="-O2" />
 					<Add directory="Core" />
 					<Add directory="Objects/" />
+					<Add directory="D:/Son Hai/Advanced Programming/Henry&apos;s SDL2 Game/Objects/" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -39,8 +41,11 @@
 		</Compiler>
 		<Unit filename="Core/Engine.cpp" />
 		<Unit filename="Core/Engine.h" />
+		<Unit filename="Objects/Enemy.cpp" />
+		<Unit filename="Objects/Enemy.h" />
 		<Unit filename="Objects/Player.cpp" />
 		<Unit filename="Objects/Player.h" />
+		<Unit filename="assets/enemy/ramostackle.png" />
 		<Unit filename="assets/field.jpg" />
 		<Unit filename="assets/footballfield.jpg" />
 		<Unit filename="assets/player/messi.png" />

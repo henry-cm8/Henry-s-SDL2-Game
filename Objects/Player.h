@@ -27,6 +27,10 @@ class Player
         float posX;
         float posY;
 
+        SDL_Rect GetCollisionBox() const;
+        SDL_Rect GetRect() const;
+
+
     private:
         SDL_Rect srcRect;
         SDL_Rect dstRect;

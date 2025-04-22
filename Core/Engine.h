@@ -2,9 +2,10 @@
 #define ENGINE_H
 #include "SDL.h"
 #include <iostream>
-
+#include <vector>
 #include "SDL_image.h"
 #include "Player.h"
+#include "Enemy.h"
 
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
@@ -25,8 +26,9 @@ class Engine
         Uint32 currentTime;
         float deltaTime;
 
-        //Uint32 lastTick;
-        //float deltaTime;
+        std::vector <Enemy*> enemies;
+        Uint32 lastSpawnTime;
+        Uint32 spawnInterval = 1500;
 
 
     private:

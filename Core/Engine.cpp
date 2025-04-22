@@ -72,6 +72,30 @@ void Engine::Update()
     deltaTime = (currentTime - lastFrame) / 1000.0f; //to seconds
 
     std::cout<<deltaTime<<std::endl;
+
+    //Spawn enemies
+    if (currentTime > lastSpawnTime + spawnInterval)
+    {
+        //spawn new enemy
+        enemies.push_back(new Enemy(renderer));
+        lastSpawnTime = currentTime;
+    }
+    //Update enemies
+    for (auto it = enemies.begin(); it != enemies.end();)
+    {
+        (*it)->Update(currentTime, deltaTime);
+        if ((*it)->IsOffScreen())
+        {
+            delete *it;
+            it = enemies.erase(it); //remove enemy from list
+            //add score later
+        }
+        else
+        {
+            ++it;
+        }
+    }
+
     lastFrame = currentTime;
 
     messi->Update(currentTime, deltaTime);
@@ -84,7 +108,25 @@ void Engine::Render()
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, fieldtexture, nullptr, &fieldrect);
 
-    messi->Render(renderer);
+    //messi->Render(renderer);
+
+    //if (!SDL_HasIntersection())
+
+    for (Enemy* e : enemies)
+    {
+        if (e->GetRect().y + e->GetRect().h <= messi->GetRect().y)
+        {
+            e->Render(renderer);
+            messi->Render(renderer);
+        }
+        else if (e->GetRect().y + e->GetRect().h > messi->GetRect().y)
+        {
+            messi->Render(renderer);
+            e->Render(renderer);
+        }
+
+    }
+        //e->Render(renderer);
 
     SDL_RenderPresent(renderer);
 }
@@ -92,6 +134,11 @@ void Engine::Render()
 void Engine::Clean()
 {
     delete messi;
+    for (Enemy* e : enemies)
+    {
+        delete e;
+    }
+    enemies.clear();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     IMG_Quit();
