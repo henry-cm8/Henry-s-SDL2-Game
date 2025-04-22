@@ -32,7 +32,7 @@ Enemy::~Enemy()
     SDL_DestroyTexture(enemyTex);
 }
 
-void Enemy::Update(Uint32 currentTime, float deltaTime)
+void Enemy::Update(Uint32 currentTime, float deltaTime) //override
 {
     //Move right
     posX += (speed*deltaTime);
@@ -52,7 +52,7 @@ void Enemy::Update(Uint32 currentTime, float deltaTime)
     collisionBox.y = dstRect.y+180;
 }
 
-void Enemy::Render(SDL_Renderer* renderer)
+void Enemy::Render(SDL_Renderer* renderer) //override
 {
     SDL_RenderCopy(renderer, enemyTex, &srcRect, &dstRect);
 }
@@ -62,7 +62,7 @@ bool Enemy::IsOffScreen() const
     return dstRect.x > 1280;
 }
 
-SDL_Rect Enemy::GetRect() const
+SDL_Rect Enemy::GetRect() const //override
 {
     return dstRect;
 }

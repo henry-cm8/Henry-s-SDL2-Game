@@ -3,12 +3,16 @@
 #include "SDL.h"
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include "SDL_image.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "GameObject.h"
 
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
+
+//enum class GameState
 
 class Engine
 {
@@ -29,6 +33,8 @@ class Engine
         float deltaTime;
 
         std::vector <Enemy*> enemies;
+        std::vector <GameObject*> gameObjects;
+
         Uint32 lastSpawnTime;
         Uint32 spawnInterval = 1500;
 

@@ -39,7 +39,7 @@ void Player::HandleInput()
 
 }
 
-void Player::Update(Uint32 currentTime, float deltaTime)
+void Player::Update(Uint32 currentTime, float deltaTime) //override
 {
 
     //Position
@@ -72,7 +72,7 @@ void Player::Update(Uint32 currentTime, float deltaTime)
 
 }
 
-void Player::Render(SDL_Renderer* renderer)
+void Player::Render(SDL_Renderer* renderer) //override
 {
     if (velX == 0 && velY == 0)
     {
@@ -108,7 +108,7 @@ void Player::Render(SDL_Renderer* renderer)
 
 }
 
-SDL_Rect Player::GetCollisionBox() const
+SDL_Rect Player::GetCollisionBox() const //override
 {
     return collisionBox;
 }

@@ -2,19 +2,19 @@
 #define ENEMY_H
 #include "SDL.h"
 #include "SDL_image.h"
+#include "GameObject.h"
 
-
-class Enemy
+class Enemy : public GameObject
 {
     public:
         Enemy(SDL_Renderer* renderer);
         ~Enemy();
 
-        void Update(Uint32 currentTime, float deltaTime);
-        void Render(SDL_Renderer* renderer);
+        void Update(Uint32 currentTime, float deltaTime) override;
+        void Render(SDL_Renderer* renderer) override;
         bool IsOffScreen() const;
         SDL_Rect GetRect() const;
-        SDL_Rect GetCollisionBox() const;
+        SDL_Rect GetCollisionBox() const override;
 
     private:
         SDL_Texture* enemyTex;

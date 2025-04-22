@@ -43,7 +43,9 @@ bool Engine::Init()
 
     //Player
     messi = new Player(renderer);
+    gameObjects.push_back(messi);
     messi->Render(renderer);
+    SDL_RenderPresent(renderer);
 
     //DeltaTime
 
@@ -77,24 +79,34 @@ void Engine::Update()
     if (currentTime > lastSpawnTime + spawnInterval)
     {
         //spawn new enemy
-        enemies.push_back(new Enemy(renderer));
+        Enemy* newEnemy = new Enemy(renderer);
+        enemies.push_back(newEnemy);
+        gameObjects.push_back(newEnemy);
         lastSpawnTime = currentTime;
     }
     //Update enemies
     for (auto it = enemies.begin(); it != enemies.end();)
     {
-        (*it)->Update(currentTime, deltaTime);
+        Enemy* enemy = *it;
+
+        enemy->Update(currentTime, deltaTime);
 
         //Check collision
-        if (CheckCollision(messi->GetCollisionBox(), (*it)->GetCollisionBox()))
+        if (CheckCollision(messi->GetCollisionBox(), enemy->GetCollisionBox()))
         {
             running = false;
+            //Game Over
         }
 
-        if ((*it)->IsOffScreen())
+        if (enemy->IsOffScreen())
         {
-            delete *it;
+            auto it_obj = std::find(gameObjects.begin(), gameObjects.end(), enemy);
+            if (it_obj != gameObjects.end()) //Remove from gameObjects
+                gameObjects.erase(it_obj);
+
+            delete enemy;
             it = enemies.erase(it); //remove enemy from list
+
             //add score later
         }
         else
@@ -107,8 +119,6 @@ void Engine::Update()
 
     messi->Update(currentTime, deltaTime);
 
-
-
 }
 
 void Engine::Render()
@@ -118,6 +128,8 @@ void Engine::Render()
     SDL_RenderCopy(renderer, fieldtexture, nullptr, &fieldrect);
 
     //messi->Render(renderer);
+    //e->Render(renderer);
+    /*
     for (Enemy* e : enemies)
     {
         if (e->GetCollisionBox().y + e->GetCollisionBox().h <= messi->GetCollisionBox().y)
@@ -125,14 +137,23 @@ void Engine::Render()
             e->Render(renderer);
             messi->Render(renderer);
         }
-        else if (e->GetCollisionBox().y + e->GetCollisionBox().h > messi->GetCollisionBox().y)
+        else //if (e->GetCollisionBox().y + e->GetCollisionBox().h > messi->GetCollisionBox().y)
         {
             messi->Render(renderer);
             e->Render(renderer);
         }
 
     }
-        //e->Render(renderer);
+    */
+
+    //Sort gameObjects based on Y(collision box)
+    std::sort(gameObjects.begin(), gameObjects.end(), [](GameObject* a, GameObject* b)
+              {
+                  return a->GetCollisionBox().y < b->GetCollisionBox().y;
+              });
+    //Render all objects
+    for (auto obj : gameObjects) obj->Render(renderer);
+
 
     SDL_RenderPresent(renderer);
 }

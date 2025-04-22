@@ -4,15 +4,16 @@
 #include "SDL_image.h"
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
+#include "GameObject.h"
 
-class Player
+class Player : public GameObject
 {
     public:
         Player(SDL_Renderer* renderer);
 
         void HandleInput();
-        void Update(Uint32 currentTime, float deltaTime);
-        void Render(SDL_Renderer* renderer);
+        void Update(Uint32 currentTime, float deltaTime) override;
+        void Render(SDL_Renderer* renderer) override;
 
         int frame;
         int frameDelay;
@@ -27,7 +28,7 @@ class Player
         float posX;
         float posY;
 
-        SDL_Rect GetCollisionBox() const;
+        SDL_Rect GetCollisionBox() const override;
         SDL_Rect GetRect() const;
 
 
