@@ -14,6 +14,7 @@ class Enemy
         void Render(SDL_Renderer* renderer);
         bool IsOffScreen() const;
         SDL_Rect GetRect() const;
+        SDL_Rect GetCollisionBox() const;
 
     private:
         SDL_Texture* enemyTex;

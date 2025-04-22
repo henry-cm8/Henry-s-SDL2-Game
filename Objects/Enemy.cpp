@@ -66,3 +66,8 @@ SDL_Rect Enemy::GetRect() const
 {
     return dstRect;
 }
+
+SDL_Rect Enemy::GetCollisionBox() const
+{
+    return collisionBox;
+}

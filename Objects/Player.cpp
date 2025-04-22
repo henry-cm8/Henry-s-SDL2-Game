@@ -20,7 +20,7 @@ Player::Player(SDL_Renderer* renderer)
 
     srcRect = {0, 0, 180, 180};
     dstRect = {1100, 270, 180, 180};
-    collisionBox = {dstRect.x, dstRect.y+135, 45, 45};
+    collisionBox = {dstRect.x, dstRect.y+160, 20, 20};
 
     speed = 500.0f;
 
@@ -54,7 +54,7 @@ void Player::Update(Uint32 currentTime, float deltaTime)
 
     //Collision box
     collisionBox.x = dstRect.x;
-    collisionBox.y = dstRect.y+135;
+    collisionBox.y = dstRect.y+160;
 
     if ((velX != 0 || velY != 0) && currentTime > lastFrameTime + frameDelay)
     {
@@ -65,7 +65,7 @@ void Player::Update(Uint32 currentTime, float deltaTime)
     }
 
     //Wall detection
-    if (collisionBox.y < 180) dstRect.y = 45; //top
+    if (collisionBox.y < 180) dstRect.y = 20; //top
     if (collisionBox.y + collisionBox.h > SCREEN_HEIGHT) dstRect.y = SCREEN_HEIGHT - dstRect.h; //bottom
     if (collisionBox.x < 0) dstRect.x = 0;
     if (collisionBox.x > SCREEN_WIDTH-dstRect.w) dstRect.x = SCREEN_WIDTH - dstRect.w;

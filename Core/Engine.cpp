@@ -84,6 +84,13 @@ void Engine::Update()
     for (auto it = enemies.begin(); it != enemies.end();)
     {
         (*it)->Update(currentTime, deltaTime);
+
+        //Check collision
+        if (CheckCollision(messi->GetCollisionBox(), (*it)->GetCollisionBox()))
+        {
+            running = false;
+        }
+
         if ((*it)->IsOffScreen())
         {
             delete *it;
@@ -100,6 +107,8 @@ void Engine::Update()
 
     messi->Update(currentTime, deltaTime);
 
+
+
 }
 
 void Engine::Render()
@@ -109,17 +118,14 @@ void Engine::Render()
     SDL_RenderCopy(renderer, fieldtexture, nullptr, &fieldrect);
 
     //messi->Render(renderer);
-
-    //if (!SDL_HasIntersection())
-
     for (Enemy* e : enemies)
     {
-        if (e->GetRect().y + e->GetRect().h <= messi->GetRect().y)
+        if (e->GetCollisionBox().y + e->GetCollisionBox().h <= messi->GetCollisionBox().y)
         {
             e->Render(renderer);
             messi->Render(renderer);
         }
-        else if (e->GetRect().y + e->GetRect().h > messi->GetRect().y)
+        else if (e->GetCollisionBox().y + e->GetCollisionBox().h > messi->GetCollisionBox().y)
         {
             messi->Render(renderer);
             e->Render(renderer);
@@ -129,6 +135,11 @@ void Engine::Render()
         //e->Render(renderer);
 
     SDL_RenderPresent(renderer);
+}
+
+bool Engine::CheckCollision(const SDL_Rect& a, const SDL_Rect& b)
+{
+    return SDL_HasIntersection(&a, &b);
 }
 
 void Engine::Clean()
