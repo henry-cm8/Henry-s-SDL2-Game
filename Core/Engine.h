@@ -26,7 +26,7 @@ class Engine
         void Render();
         void Clean();
 
-        bool CheckCollision(const SDL_Rect& a, const SDL_Rect& b);
+        bool CheckCollision(const SDL_Rect& l, const SDL_Rect& r);
 
         Uint32 lastFrame;
         Uint32 currentTime;

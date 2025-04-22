@@ -90,7 +90,7 @@ void Engine::Update()
         enemy->Update(currentTime, deltaTime);
 
         //Check collision
-        if (CheckCollision(messi->GetCollisionBox(), enemy->GetCollisionBox()))
+        if (CheckCollision(enemy->GetCollisionBox(), messi->GetCollisionBox()))
         {
             running = false;
             //Game Over
@@ -125,25 +125,6 @@ void Engine::Render()
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, fieldtexture, nullptr, &fieldrect);
 
-    //messi->Render(renderer);
-    //e->Render(renderer);
-    /*
-    for (Enemy* e : enemies)
-    {
-        if (e->GetCollisionBox().y + e->GetCollisionBox().h <= messi->GetCollisionBox().y)
-        {
-            e->Render(renderer);
-            messi->Render(renderer);
-        }
-        else //if (e->GetCollisionBox().y + e->GetCollisionBox().h > messi->GetCollisionBox().y)
-        {
-            messi->Render(renderer);
-            e->Render(renderer);
-        }
-
-    }
-    */
-
     //Sort gameObjects based on Y(collision box)
     std::sort(gameObjects.begin(), gameObjects.end(), [](GameObject* a, GameObject* b)
               {
@@ -156,9 +137,11 @@ void Engine::Render()
     SDL_RenderPresent(renderer);
 }
 
-bool Engine::CheckCollision(const SDL_Rect& a, const SDL_Rect& b)
+bool Engine::CheckCollision(const SDL_Rect& l, const SDL_Rect& r)
 {
-    return SDL_HasIntersection(&a, &b);
+    return (l.x+l.w >= r.x &&
+            l.x+l.w <= r.x+r.w &&
+            l.y+l.h == r.y+r.h);
 }
 
 void Engine::Clean()
