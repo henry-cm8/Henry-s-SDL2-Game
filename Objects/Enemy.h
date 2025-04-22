@@ -16,6 +16,11 @@ class Enemy : public GameObject
         SDL_Rect GetRect() const;
         SDL_Rect GetCollisionBox() const override;
 
+        bool tackled = false;
+        bool shocked = false;
+
+        SDL_Texture* shockedTex;
+
     private:
         SDL_Texture* enemyTex;
         SDL_Rect srcRect, dstRect, collisionBox;

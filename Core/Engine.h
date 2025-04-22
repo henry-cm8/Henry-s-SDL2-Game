@@ -38,6 +38,8 @@ class Engine
         Uint32 lastSpawnTime;
         Uint32 spawnInterval = 1000;
 
+        bool gameOver = false;
+
 
     private:
         bool running;

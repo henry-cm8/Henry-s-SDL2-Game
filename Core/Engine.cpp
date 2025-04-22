@@ -74,7 +74,7 @@ void Engine::Update()
     std::cout<<deltaTime<<std::endl;
 
     //Spawn enemies
-    if (currentTime > lastSpawnTime + spawnInterval)
+    if (currentTime > lastSpawnTime + spawnInterval && !gameOver)
     {
         //spawn new enemy
         Enemy* newEnemy = new Enemy(renderer);
@@ -89,12 +89,16 @@ void Engine::Update()
 
         enemy->Update(currentTime, deltaTime);
 
+        if (gameOver) enemy->shocked=true;
         //Check collision
         if (CheckCollision(enemy->GetCollisionBox(), messi->GetCollisionBox()))
         {
-            running = false;
+            gameOver = true;
+            messi->isDead=true;
+            enemy->tackled=true;
             //Game Over
         }
+
 
         if (enemy->IsOffScreen())
         {

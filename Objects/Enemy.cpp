@@ -24,8 +24,10 @@ Enemy::Enemy(SDL_Renderer* renderer)
     posY = 45 + (rand()%3)*225;
     posX = -225;
 
+    shockedTex = IMG_LoadTexture(renderer, "assets/enemy/ramosshocked.png");
+
     dstRect = { static_cast<int>(posX), static_cast<int>(posY), 225, 225};
-    collisionBox = {dstRect.x+180, dstRect.y+180, 45, 45};
+    collisionBox = {dstRect.x+135, dstRect.y+180, 45, 45};
 }
 
 Enemy::~Enemy()
@@ -36,20 +38,32 @@ Enemy::~Enemy()
 void Enemy::Update(Uint32 currentTime, float deltaTime) //override
 {
     //Move right
-    posX += (speed*deltaTime);
-    dstRect.x = static_cast<int>(posX);
-
-    //Animation Tackle
-    if (currentTime > lastFrameTime + frameDelay)
+    if (!shocked && !tackled)
     {
-        frame = (frame+1) % numFrames;
-        lastFrameTime = currentTime;
-    }
-    srcRect.x = frame * frameWidth;
 
-    //Collision
-    collisionBox.x = dstRect.x;
-    collisionBox.y = dstRect.y+180;
+
+        posX += (speed*deltaTime);
+        dstRect.x = static_cast<int>(posX);
+
+
+        //Animation Tackle
+        if (currentTime > lastFrameTime + frameDelay)
+        {
+            frame = (frame+1) % numFrames;
+            lastFrameTime = currentTime;
+        }
+        srcRect.x = frame * frameWidth;
+
+        //Collision
+        collisionBox.x = dstRect.x+135;
+        collisionBox.y = dstRect.y+180;
+    }
+
+    else
+    {
+        enemyTex = shockedTex;
+        srcRect.x = 0;
+    }
 }
 
 void Enemy::Render(SDL_Renderer* renderer) //override

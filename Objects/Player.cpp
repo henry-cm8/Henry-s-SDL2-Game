@@ -26,6 +26,7 @@ Player::Player(SDL_Renderer* renderer)
     collisionBox = {dstRect.x, dstRect.y+205, 20, 20};
     targetY = posY;
 
+    deadTex = IMG_LoadTexture(renderer, "assets/player/messidead.png");
 
     speed = 500.0f;
 
@@ -77,19 +78,35 @@ void Player::Update(Uint32 currentTime, float deltaTime) //override
         collisionBox.y = dstRect.y+205;
     }
     //Animation
-    if ( currentTime > lastFrameTime + frameDelay)
+    if ( !isDead && currentTime > lastFrameTime + frameDelay)
     {
-        //if (velX < 0)
         frame = (frame+1) % numFramesLeft; //leftward
-        //else if (velX > 0) frame = (frame+1) % numFramesRight; //rightward
-        //else frame=0; //vertical and idle uses single frame
         lastFrameTime = currentTime;
+    }
+
+    //Death
+    if (isDead)
+    {
+        if (currentTime > lastFrameTime + frameDelay-100)
+        {
+            deadFrame = (deadFrame+1) % numFramesDead;
+            lastFrameTime = currentTime;
+        }
+        return;
     }
 
 }
 
 void Player::Render(SDL_Renderer* renderer) //override
 {
+    //Death
+    if (isDead)
+    {
+        srcRect.x = deadFrame * frameWidth;
+        SDL_RenderCopy(renderer, deadTex, &srcRect, &dstRect);
+        return;
+    }
+
     SDL_Texture* currentTex;
     if (isMoving)
     {

@@ -36,6 +36,10 @@ class Player : public GameObject
         SDL_Rect GetCollisionBox() const override;
         SDL_Rect GetRect() const;
 
+        bool isDead = false;
+        SDL_Texture* deadTex;
+        int deadFrame = 0;
+        int numFramesDead = 8;
 
     private:
         SDL_Rect srcRect;
