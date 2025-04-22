@@ -13,18 +13,19 @@ Enemy::Enemy(SDL_Renderer* renderer)
     frameDelay = 100;
     lastFrameTime = 0;
 
-    speed = 200.0f;
+    speed = 450.0f;
 
     srcRect = {0, 0, frameWidth, frameHeight};
 
     //Field bound
-    int minY = 0;
-    int maxY = 720 - frameHeight;
-    posY = minY + rand() % (maxY - minY + 1);
-    posX = -frameWidth;
+    //int minY = 0;
+    //int maxY = 720 - frameHeight;
+    //posY = minY + rand() % (maxY - minY + 1);
+    posY = 45 + (rand()%3)*225;
+    posX = -225;
 
     dstRect = { static_cast<int>(posX), static_cast<int>(posY), 225, 225};
-    collisionBox = {dstRect.x, dstRect.y+180, 90, 45};
+    collisionBox = {dstRect.x+180, dstRect.y+180, 45, 45};
 }
 
 Enemy::~Enemy()
@@ -44,7 +45,6 @@ void Enemy::Update(Uint32 currentTime, float deltaTime) //override
         frame = (frame+1) % numFrames;
         lastFrameTime = currentTime;
     }
-
     srcRect.x = frame * frameWidth;
 
     //Collision

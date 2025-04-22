@@ -36,7 +36,7 @@ class Engine
         std::vector <GameObject*> gameObjects;
 
         Uint32 lastSpawnTime;
-        Uint32 spawnInterval = 1500;
+        Uint32 spawnInterval = 1000;
 
 
     private:

@@ -12,10 +12,11 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c17" />
 					<Add option="-g" />
 					<Add directory="Core" />
 					<Add directory="Objects/" />
-					<Add directory="D:/Son Hai/Advanced Programming/Henry&apos;s SDL2 Game/Objects/" />
+					<Add directory="D:/SonHai/AdvancedProgramming/HenrySDL2Game/Objects/" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -43,6 +44,8 @@
 		<Unit filename="Core/Engine.h" />
 		<Unit filename="Objects/Enemy.cpp" />
 		<Unit filename="Objects/Enemy.h" />
+		<Unit filename="Objects/GameObject.cpp" />
+		<Unit filename="Objects/GameObject.h" />
 		<Unit filename="Objects/Player.cpp" />
 		<Unit filename="Objects/Player.h" />
 		<Unit filename="assets/enemy/ramostackle.png" />

@@ -17,94 +17,95 @@ Player::Player(SDL_Renderer* renderer)
     numFramesLeft = 4;
     numFramesRight = 2;
 
+    rowY = {45, 270, 495};
+    currentRow = 1;
+    posY=rowY[currentRow];
 
     srcRect = {0, 0, 180, 180};
-    dstRect = {1100, 270, 180, 180};
-    collisionBox = {dstRect.x, dstRect.y+160, 20, 20};
+    dstRect = {800, static_cast<int>(posY), 225, 225};
+    collisionBox = {dstRect.x, dstRect.y+205, 20, 20};
+    targetY = posY;
+
 
     speed = 500.0f;
 
 }
 
-void Player::HandleInput()
+void Player::HandleInput(SDL_Event& e)
 {
+    /*
     const Uint8* keystate = SDL_GetKeyboardState(NULL);
-    velX = 0;
-    velY = 0;
-
     if (keystate[SDL_SCANCODE_LEFT]) velX = -1;
     if (keystate[SDL_SCANCODE_RIGHT]) velX = 1;
     if (keystate[SDL_SCANCODE_UP]) velY = -1;
     if (keystate[SDL_SCANCODE_DOWN]) velY = 1;
+    */
+    if (e.type == SDL_KEYDOWN && e.key.repeat == 0 && !isMoving)
+    {
+        if (e.key.keysym.sym == SDLK_UP && currentRow > 0)
+        {
+            currentRow--;
+            targetY = rowY[currentRow];
+            isMoving = true;
+        }
+        else if (e.key.keysym.sym == SDLK_DOWN && currentRow < 2)
+        {
+            currentRow++;
+            targetY = rowY[currentRow];
+            isMoving = true;
+        }
+    }
+
 
 }
 
 void Player::Update(Uint32 currentTime, float deltaTime) //override
 {
-
-    //Position
-    posX = dstRect.x;
-    posY = dstRect.y;
-
-    posX += (velX*speed*deltaTime);
-    posY += (velY*speed*deltaTime);
-
-    dstRect.x = static_cast<int>(posX);
-    dstRect.y = static_cast<int>(posY);
-
-    //Collision box
-    collisionBox.x = dstRect.x;
-    collisionBox.y = dstRect.y+160;
-
-    if ((velX != 0 || velY != 0) && currentTime > lastFrameTime + frameDelay)
+    if (isMoving)
     {
-        if (velX < 0) frame = (frame+1) % numFramesLeft; //leftward
-        else if (velX > 0) frame = (frame+1) % numFramesRight; //rightward
-        else frame=0; //vertical and idle uses single frame
+        float direction = (targetY > posY)? 1.0f : -1.0f;
+        posY += (direction*speed*deltaTime);
+
+        // If reached or passed target, snap and stop moving
+        if ((direction > 0 && posY >= targetY) || (direction < 0 && posY <= targetY))
+        {
+            posY = targetY;
+            isMoving = false;
+        }
+
+        dstRect.y = static_cast<int>(posY);
+        collisionBox.y = dstRect.y+205;
+    }
+    //Animation
+    if ( currentTime > lastFrameTime + frameDelay)
+    {
+        //if (velX < 0)
+        frame = (frame+1) % numFramesLeft; //leftward
+        //else if (velX > 0) frame = (frame+1) % numFramesRight; //rightward
+        //else frame=0; //vertical and idle uses single frame
         lastFrameTime = currentTime;
     }
-
-    //Wall detection
-    if (collisionBox.y < 180) dstRect.y = 20; //top
-    if (collisionBox.y + collisionBox.h > SCREEN_HEIGHT) dstRect.y = SCREEN_HEIGHT - dstRect.h; //bottom
-    if (collisionBox.x < 0) dstRect.x = 0;
-    if (collisionBox.x > SCREEN_WIDTH-dstRect.w) dstRect.x = SCREEN_WIDTH - dstRect.w;
 
 }
 
 void Player::Render(SDL_Renderer* renderer) //override
 {
-    if (velX == 0 && velY == 0)
+    SDL_Texture* currentTex;
+    if (isMoving)
     {
-        //idle
+        if (targetY < posY)
+            currentTex = upTex; //Up
+        else
+            currentTex = downTex; //Down
         srcRect.x = 0;
-        SDL_RenderCopy(renderer, idleTex, &srcRect, &dstRect);
     }
-    else if (velX < 0)
+    else
     {
-        //Left
+        currentTex = playerTex; //Idle
         srcRect.x = frame * frameWidth;
-        SDL_RenderCopy(renderer, playerTex, &srcRect, &dstRect);
     }
-    else if (velX > 0)
-    {
-        //Right
-        srcRect.x = frame * frameWidth;
-        SDL_RenderCopy(renderer, rightTex, &srcRect, &dstRect);
-    }
-    else if (velY < 0)
-    {
-        //Up
-        srcRect.x = 0;
-        SDL_RenderCopy(renderer, upTex, &srcRect, &dstRect);
-    }
-    else if (velY > 0)
-    {
-        //Down
-        srcRect.x = 0;
-        SDL_RenderCopy(renderer, downTex, &srcRect, &dstRect);
 
-    }
+    SDL_RenderCopy(renderer, currentTex, &srcRect, &dstRect);
 
 }
 

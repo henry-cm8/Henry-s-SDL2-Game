@@ -47,8 +47,6 @@ bool Engine::Init()
     messi->Render(renderer);
     SDL_RenderPresent(renderer);
 
-    //DeltaTime
-
 
     running = true;
     return true;
@@ -62,10 +60,10 @@ void Engine::HandleEvents()
     {
         if (e.type == SDL_QUIT)
             running = false;
-
+        messi->HandleInput(e);
     }
 
-     messi->HandleInput();
+     //messi->HandleInput();
 }
 
 void Engine::Update()

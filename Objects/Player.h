@@ -11,7 +11,7 @@ class Player : public GameObject
     public:
         Player(SDL_Renderer* renderer);
 
-        void HandleInput();
+        void HandleInput(SDL_Event& e);
         void Update(Uint32 currentTime, float deltaTime) override;
         void Render(SDL_Renderer* renderer) override;
 
@@ -27,6 +27,11 @@ class Player : public GameObject
         //int numFramesDown;
         float posX;
         float posY;
+
+        int currentRow;
+        std::vector<int> rowY;
+        float targetY;
+        bool isMoving = false;
 
         SDL_Rect GetCollisionBox() const override;
         SDL_Rect GetRect() const;
@@ -44,8 +49,6 @@ class Player : public GameObject
 
 
         float speed;
-        int velX, velY;
-
 };
 
 #endif // PLAYER_H
