@@ -47,8 +47,11 @@ class Engine
         SDL_Renderer* renderer;
 
         //Load FootballField
-        SDL_Texture* fieldtexture;
-        SDL_Rect fieldrect;
+        SDL_Texture* fieldtextureA;
+        SDL_Texture* fieldtextureB;
+        SDL_Rect fieldrectA;
+        SDL_Rect fieldrectB;
+        float screenSpeed;
 
         Player* messi;
 

@@ -40,13 +40,11 @@ void Enemy::Update(Uint32 currentTime, float deltaTime) //override
     //Move right
     if (!shocked && !tackled)
     {
-
-
+        //Update position
         posX += (speed*deltaTime);
         dstRect.x = static_cast<int>(posX);
 
-
-        //Animation Tackle
+        //Animation when running
         if (currentTime > lastFrameTime + frameDelay)
         {
             frame = (frame+1) % numFrames;

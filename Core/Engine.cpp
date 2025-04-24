@@ -38,8 +38,11 @@ bool Engine::Init()
     lastFrame = SDL_GetTicks();
 
     //Load FootballField
-    fieldtexture = IMG_LoadTexture(renderer, "assets/footballfield.jpg");
-    fieldrect = {0, 180, 1280, 540};
+    fieldtextureA = IMG_LoadTexture(renderer, "assets/grasstexture.jpg");
+    fieldtextureB = IMG_LoadTexture(renderer, "assets/grasstexture.jpg");
+    fieldrectA = {0, 180, 1280, 540};
+    fieldrectB = {fieldrectA.x - SCREEN_WIDTH, fieldrectA.y, fieldrectA.w, fieldrectA.h};
+    screenSpeed = 500.0f;
 
     //Player
     messi = new Player(renderer);
@@ -72,6 +75,14 @@ void Engine::Update()
     deltaTime = (currentTime - lastFrame) / 1000.0f; //to seconds
 
     std::cout<<deltaTime<<std::endl;
+
+    //Screen floating
+    if (!gameOver)
+    {
+        fieldrectA.x += (screenSpeed*deltaTime);
+        fieldrectB = {fieldrectA.x - SCREEN_WIDTH, fieldrectA.y, fieldrectA.w, fieldrectA.h};
+        if (fieldrectA.x > SCREEN_WIDTH) fieldrectA.x = 0;
+    }
 
     //Spawn enemies
     if (currentTime > lastSpawnTime + spawnInterval && !gameOver)
@@ -127,7 +138,9 @@ void Engine::Render()
 {
     //Football Field: Background
     SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, fieldtexture, nullptr, &fieldrect);
+    SDL_RenderCopy(renderer, fieldtextureA, nullptr, &fieldrectA);
+    SDL_RenderCopy(renderer, fieldtextureB, nullptr, &fieldrectB);
+
 
     //Sort gameObjects based on Y(collision box)
     std::sort(gameObjects.begin(), gameObjects.end(), [](GameObject* a, GameObject* b)
