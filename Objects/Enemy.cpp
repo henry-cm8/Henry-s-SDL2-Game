@@ -67,7 +67,7 @@ void Enemy::Update(Uint32 currentTime, float deltaTime) //override
     }
     else if (shocked && tackled)
     {
-        srcRect.x = (numFrames-1)*frameWidth;
+        srcRect.x = (numFrames-2)*frameWidth;
     }
     else if (shocked && !tackled)
     {

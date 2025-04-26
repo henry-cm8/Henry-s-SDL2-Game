@@ -38,9 +38,9 @@ bool Engine::Init()
     lastFrame = SDL_GetTicks();
 
     //Load FootballField
-    fieldtextureA = IMG_LoadTexture(renderer, "assets/grasstexture.jpg");
-    fieldtextureB = IMG_LoadTexture(renderer, "assets/grasstexture.jpg");
-    fieldrectA = {0, 180, 1280, 540};
+    fieldtextureA = IMG_LoadTexture(renderer, "assets/background.png");
+    fieldtextureB = IMG_LoadTexture(renderer, "assets/background.png");
+    fieldrectA = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
     fieldrectB = {fieldrectA.x - SCREEN_WIDTH, fieldrectA.y, fieldrectA.w, fieldrectA.h};
     screenSpeed = 600.0f;
 

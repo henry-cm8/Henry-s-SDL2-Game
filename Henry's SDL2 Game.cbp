@@ -48,8 +48,10 @@
 		<Unit filename="Objects/GameObject.h" />
 		<Unit filename="Objects/Player.cpp" />
 		<Unit filename="Objects/Player.h" />
+		<Unit filename="assets/background.png" />
 		<Unit filename="assets/enemy/ramosshocked.png" />
 		<Unit filename="assets/enemy/ramostackle.png" />
+		<Unit filename="assets/grassfield.jpg" />
 		<Unit filename="assets/grasstexture.jpg" />
 		<Unit filename="assets/player/messi.png" />
 		<Unit filename="assets/player/messidead.png" />
