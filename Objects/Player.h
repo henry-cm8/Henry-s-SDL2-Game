@@ -2,6 +2,7 @@
 #define PLAYER_H
 #include "SDL.h"
 #include "SDL_image.h"
+#include "SDL_image.h"
 #include "GameObject.h"
 
 class Player : public GameObject

@@ -12,13 +12,16 @@ class Enemy : public GameObject
 
         void Update(Uint32 currentTime, float deltaTime) override;
         void Render(SDL_Renderer* renderer) override;
-        bool IsOffScreen() const;
+
         SDL_Rect GetRect() const;
         SDL_Rect GetCollisionBox() const override;
 
-
+        //States
         bool tackled = false;
         bool shocked = false;
+        bool IsOffScreen() const;
+        bool bounced = false;
+        bool passedPlayer = false;
 
         SDL_Texture* shockedTex;
 

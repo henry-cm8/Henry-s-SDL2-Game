@@ -109,7 +109,12 @@ void Engine::Update()
             enemy->tackled=true;
             //Game Over
         }
-
+        //Check score
+        if (enemy->bounced && !enemy->passedPlayer && enemy->GetRect().x < messi->GetRect().x)
+        {
+            score += 1;
+            enemy->passedPlayer = true;
+        }
         //Deletion
         if (enemy->IsOffScreen())
         {
@@ -119,14 +124,12 @@ void Engine::Update()
             delete enemy;
             it = enemies.erase(it); //remove from enemy list
             //add score later
-            score++;
         }
         else
         {
             ++it;
         }
     }
-
     lastFrame = currentTime;
 
     messi->Update(currentTime, deltaTime);
@@ -140,7 +143,6 @@ void Engine::Render()
     SDL_RenderCopy(renderer, fieldtextureA, nullptr, &fieldrectA);
     SDL_RenderCopy(renderer, fieldtextureB, nullptr, &fieldrectB);
 
-
     //Sort gameObjects based on Y(collision box)
     std::sort(gameObjects.begin(), gameObjects.end(), [](GameObject* a, GameObject* b)
               {
@@ -148,7 +150,6 @@ void Engine::Render()
               });
     //Render all objects
     for (auto obj : gameObjects) obj->Render(renderer);
-
 
     SDL_RenderPresent(renderer);
 }
@@ -172,5 +173,5 @@ void Engine::Clean()
     SDL_DestroyWindow(window);
     IMG_Quit();
     SDL_Quit();
-    std::cout<<"Score: "<<score<<std::endl;
+    std::cout<<"You have beaten "<<score<<" defenders."<<std::endl;
 }

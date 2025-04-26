@@ -123,7 +123,6 @@ void Player::Render(SDL_Renderer* renderer) //override
     }
 
     SDL_RenderCopy(renderer, currentTex, &srcRect, &dstRect);
-
 }
 
 SDL_Rect Player::GetCollisionBox() const //override

@@ -13,7 +13,7 @@ Enemy::Enemy(SDL_Renderer* renderer)
     frameDelay = 100;
     lastFrameTime = 0;
 
-    speed = 800.0f;
+    speed = 500.0f;
 
     srcRect = {0, 0, frameWidth, frameHeight};
 
@@ -29,7 +29,7 @@ Enemy::Enemy(SDL_Renderer* renderer)
     direction = 1.0f;
 
     dstRect = { static_cast<int>(posX), static_cast<int>(posY), 225, 225};
-    collisionBox = {dstRect.x+135, dstRect.y+180, 45, 45};
+    collisionBox = {dstRect.x+180, dstRect.y+180, 45, 45};
 }
 
 Enemy::~Enemy()
@@ -43,7 +43,12 @@ void Enemy::Update(Uint32 currentTime, float deltaTime) //override
     if (!shocked && !tackled)
     {
         //Update direction
-        if (dstRect.x == SCREEN_WIDTH-dstRect.w) direction = -1.0f;
+        if (dstRect.x + dstRect.w >= SCREEN_WIDTH)
+        {
+            dstRect.x = SCREEN_WIDTH - dstRect.w;
+            direction = -1.0f;
+            bounced = true;
+        }
         //Update position
         posX += (speed*deltaTime*direction);
         dstRect.x =  static_cast<int>(posX);
@@ -57,11 +62,14 @@ void Enemy::Update(Uint32 currentTime, float deltaTime) //override
         srcRect.x = frame * frameWidth;
 
         //Collision
-        collisionBox.x = dstRect.x+135;
+        collisionBox.x = (direction == -1.0f)? dstRect.x : dstRect.x + 180;
         collisionBox.y = dstRect.y+180;
     }
-
-    else
+    else if (shocked && tackled)
+    {
+        srcRect.x = (numFrames-1)*frameWidth;
+    }
+    else if (shocked && !tackled)
     {
         enemyTex = shockedTex;
         srcRect.x = 0;
@@ -70,12 +78,13 @@ void Enemy::Update(Uint32 currentTime, float deltaTime) //override
 
 void Enemy::Render(SDL_Renderer* renderer) //override
 {
-    SDL_RenderCopy(renderer, enemyTex, &srcRect, &dstRect);
+    //SDL_RenderCopy(renderer, enemyTex, &srcRect, &dstRect);
+    SDL_RenderCopyEx(renderer, enemyTex, &srcRect, &dstRect, 0, nullptr, (direction == -1.0f)? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 }
 
 bool Enemy::IsOffScreen() const
 {
-    return (dstRect.x == -dstRect.w && direction == -1.0f);
+    return (dstRect.x <= -dstRect.w && direction == -1.0f);
 }
 
 SDL_Rect Enemy::GetRect() const //override

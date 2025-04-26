@@ -2,19 +2,9 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="Objects\Player.cpp" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Core\Engine.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2241" topLine="54" />
-		</Cursor>
-	</File>
-	<File name="Objects\Player.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="969" topLine="6" />
-		</Cursor>
-	</File>
-	<File name="Objects\GameObject.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="103" topLine="0" />
+			<Cursor1 position="664" topLine="13" />
 		</Cursor>
 	</File>
 	<File name="main.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -22,9 +12,19 @@
 			<Cursor1 position="42" topLine="0" />
 		</Cursor>
 	</File>
+	<File name="Objects\Player.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="19" topLine="0" />
+		</Cursor>
+	</File>
 	<File name="Objects\Enemy.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="604" topLine="0" />
+			<Cursor1 position="717" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Core\Engine.cpp" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4325" topLine="125" />
 		</Cursor>
 	</File>
 	<File name="Objects\GameObject.cpp" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -32,19 +32,19 @@
 			<Cursor1 position="27" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Core\Engine.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Objects\Player.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1741" topLine="24" />
-		</Cursor>
-	</File>
-	<File name="Core\Engine.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="179" topLine="8" />
+			<Cursor1 position="76" topLine="8" />
 		</Cursor>
 	</File>
 	<File name="Objects\Enemy.cpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="324" topLine="0" />
+			<Cursor1 position="1186" topLine="15" />
+		</Cursor>
+	</File>
+	<File name="Objects\GameObject.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="157" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
