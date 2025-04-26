@@ -3,6 +3,8 @@
 #include "SDL.h"
 #include "SDL_image.h"
 #include <vector>
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 720
 
 class GameObject
 {

@@ -25,6 +25,7 @@ class Engine
         void Update();
         void Render();
         void Clean();
+        int score = 0; //=number of opponents offscreen
 
         bool CheckCollision(const SDL_Rect& l, const SDL_Rect& r);
 
@@ -36,7 +37,7 @@ class Engine
         std::vector <GameObject*> gameObjects;
 
         Uint32 lastSpawnTime;
-        Uint32 spawnInterval = 1000;
+        Uint32 spawnInterval = 800;
 
         bool gameOver = false;
 

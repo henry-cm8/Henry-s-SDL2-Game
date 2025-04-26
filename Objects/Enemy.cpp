@@ -13,7 +13,7 @@ Enemy::Enemy(SDL_Renderer* renderer)
     frameDelay = 100;
     lastFrameTime = 0;
 
-    speed = 450.0f;
+    speed = 800.0f;
 
     srcRect = {0, 0, frameWidth, frameHeight};
 
@@ -25,6 +25,8 @@ Enemy::Enemy(SDL_Renderer* renderer)
     posX = -225;
 
     shockedTex = IMG_LoadTexture(renderer, "assets/enemy/ramosshocked.png");
+
+    direction = 1.0f;
 
     dstRect = { static_cast<int>(posX), static_cast<int>(posY), 225, 225};
     collisionBox = {dstRect.x+135, dstRect.y+180, 45, 45};
@@ -40,9 +42,11 @@ void Enemy::Update(Uint32 currentTime, float deltaTime) //override
     //Move right
     if (!shocked && !tackled)
     {
+        //Update direction
+        if (dstRect.x == SCREEN_WIDTH-dstRect.w) direction = -1.0f;
         //Update position
-        posX += (speed*deltaTime);
-        dstRect.x = static_cast<int>(posX);
+        posX += (speed*deltaTime*direction);
+        dstRect.x =  static_cast<int>(posX);
 
         //Animation when running
         if (currentTime > lastFrameTime + frameDelay)
@@ -71,7 +75,7 @@ void Enemy::Render(SDL_Renderer* renderer) //override
 
 bool Enemy::IsOffScreen() const
 {
-    return dstRect.x > 1280;
+    return (dstRect.x == -dstRect.w && direction == -1.0f);
 }
 
 SDL_Rect Enemy::GetRect() const //override

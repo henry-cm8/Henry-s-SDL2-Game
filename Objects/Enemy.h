@@ -16,6 +16,7 @@ class Enemy : public GameObject
         SDL_Rect GetRect() const;
         SDL_Rect GetCollisionBox() const override;
 
+
         bool tackled = false;
         bool shocked = false;
 
@@ -26,7 +27,7 @@ class Enemy : public GameObject
         SDL_Rect srcRect, dstRect, collisionBox;
 
         float posX, posY, speed;
-
+        float direction;
         int frame, frameDelay;
         Uint32 lastFrameTime;
         int numFrames, frameWidth, frameHeight;

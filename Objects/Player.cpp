@@ -62,7 +62,7 @@ void Player::HandleInput(SDL_Event& e)
 
 void Player::Update(Uint32 currentTime, float deltaTime) //override
 {
-    if (isMoving)
+    if (isMoving && !isDead)
     {
         float direction = (targetY > posY)? 1.0f : -1.0f;
         posY += (direction*speed*deltaTime);

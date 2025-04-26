@@ -2,8 +2,6 @@
 #define PLAYER_H
 #include "SDL.h"
 #include "SDL_image.h"
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 720
 #include "GameObject.h"
 
 class Player : public GameObject

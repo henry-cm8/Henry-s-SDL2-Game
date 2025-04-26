@@ -42,7 +42,7 @@ bool Engine::Init()
     fieldtextureB = IMG_LoadTexture(renderer, "assets/grasstexture.jpg");
     fieldrectA = {0, 180, 1280, 540};
     fieldrectB = {fieldrectA.x - SCREEN_WIDTH, fieldrectA.y, fieldrectA.w, fieldrectA.h};
-    screenSpeed = 500.0f;
+    screenSpeed = 600.0f;
 
     //Player
     messi = new Player(renderer);
@@ -110,17 +110,16 @@ void Engine::Update()
             //Game Over
         }
 
-
+        //Deletion
         if (enemy->IsOffScreen())
         {
             auto it_obj = std::find(gameObjects.begin(), gameObjects.end(), enemy);
             if (it_obj != gameObjects.end()) //Remove from gameObjects
                 gameObjects.erase(it_obj);
-
             delete enemy;
-            it = enemies.erase(it); //remove enemy from list
-
+            it = enemies.erase(it); //remove from enemy list
             //add score later
+            score++;
         }
         else
         {
@@ -173,4 +172,5 @@ void Engine::Clean()
     SDL_DestroyWindow(window);
     IMG_Quit();
     SDL_Quit();
+    std::cout<<"Score: "<<score<<std::endl;
 }
