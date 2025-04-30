@@ -44,13 +44,6 @@ bool Engine::Init()
 
     lastFrame = SDL_GetTicks();
 
-    //Score
-    TTF_Font* scoreFont = TTF_OpenFont("assets/fonts/HardSports.ttf", 24);
-    SDL_Color scoreColor = {0,0,0};
-    SDL_Surface* scoreSurface = TTF_RenderText_Solid(scoreFont, "Score: ", scoreColor);
-    scoreTexture = SDL_CreateTextureFromSurface(renderer, scoreSurface);
-    SDL_FreeSurface(scoreSurface);
-
     //Load FootballField
     fieldtextureA = IMG_LoadTexture(renderer, "assets/background.png");
     fieldtextureB = IMG_LoadTexture(renderer, "assets/background.png");
@@ -64,6 +57,8 @@ bool Engine::Init()
     messi->Render(renderer);
     SDL_RenderPresent(renderer);
 
+    //Score
+    scoreFont = TTF_OpenFont("assets/fonts/HardSports.ttf", 24);
 
     running = true;
     return true;
@@ -86,6 +81,7 @@ void Engine::HandleEvents()
 void Engine::Update()
 {
     Uint32 currentTime = SDL_GetTicks();
+
     deltaTime = (currentTime - lastFrame) / 1000.0f; //to seconds
 
     std::cout<<deltaTime<<std::endl;
@@ -105,6 +101,7 @@ void Engine::Update()
         Enemy* newEnemy = new Enemy(renderer);
         enemies.push_back(newEnemy);
         gameObjects.push_back(newEnemy);
+        std::cout<<"An enemy created"<<std::endl;
         lastSpawnTime = currentTime;
     }
     //Update enemies
@@ -146,6 +143,17 @@ void Engine::Update()
     }
     lastFrame = currentTime;
 
+    //Score Update
+    std::stringstream ss;
+    ss << "Opponent cooked: " << score;
+    std::string scoreTextureString = ss.str();
+    SDL_Color scoreColor = {0,0,0};
+    SDL_Surface* scoreSurface = TTF_RenderText_Solid(scoreFont, scoreTextureString.c_str(), scoreColor);
+    scoreTexture = SDL_CreateTextureFromSurface(renderer, scoreSurface);
+    SDL_SetTextureBlendMode(scoreTexture, SDL_BLENDMODE_BLEND);
+    SDL_FreeSurface(scoreSurface);
+
+
     messi->Update(currentTime, deltaTime);
 
 }
@@ -157,6 +165,9 @@ void Engine::Render()
     SDL_RenderCopy(renderer, fieldtextureA, nullptr, &fieldrectA);
     SDL_RenderCopy(renderer, fieldtextureB, nullptr, &fieldrectB);
 
+    //Score
+    SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);
+
     //Sort gameObjects based on Y(collision box)
     std::sort(gameObjects.begin(), gameObjects.end(), [](GameObject* a, GameObject* b)
               {
@@ -164,10 +175,6 @@ void Engine::Render()
               });
     //Render all objects
     for (auto obj : gameObjects) obj->Render(renderer);
-
-    //Score
-    SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);
-
 
     SDL_RenderPresent(renderer);
 }
@@ -186,6 +193,7 @@ void Engine::Clean()
     {
         delete e;
     }
+    SDL_DestroyTexture(scoreTexture);
     enemies.clear();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);

@@ -6,6 +6,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <sstream>
 #include "Player.h"
 #include "Enemy.h"
 #include "GameObject.h"
@@ -37,11 +38,12 @@ class Engine
         std::vector <Enemy*> enemies;
         std::vector <GameObject*> gameObjects;
 
-        Uint32 lastSpawnTime;
+        Uint32 lastSpawnTime = 0;
         Uint32 spawnInterval = 1000;
 
         bool gameOver = false;
         //Score
+        TTF_Font* scoreFont;
         SDL_Texture* scoreTexture;
         SDL_Rect scoreRect = {100,0,200,70};
 
