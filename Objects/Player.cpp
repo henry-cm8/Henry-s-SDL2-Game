@@ -23,7 +23,7 @@ Player::Player(SDL_Renderer* renderer)
 
     srcRect = {0, 0, 180, 180};
     dstRect = {800, static_cast<int>(posY), 225, 225};
-    collisionBox = {dstRect.x, dstRect.y+205, 20, 20};
+    collisionBox = {dstRect.x, dstRect.y+205, 125 , 20};
     targetY = posY;
 
     deadTex = IMG_LoadTexture(renderer, "assets/player/messidead.png");

@@ -20,6 +20,13 @@ bool Engine::Init()
         SDL_Log("Failed to Initialize SDL_image: %s", SDL_GetError());
         return false;
     }
+    //SDL_TTF Init
+    if (TTF_Init() != 0)
+    {
+        SDL_Log("Failed to Initialize TTF: %s", SDL_GetError());
+        return false;
+    }
+
     //Create Window
     window = SDL_CreateWindow("Henry's Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     if (window == nullptr)
@@ -36,6 +43,13 @@ bool Engine::Init()
     }
 
     lastFrame = SDL_GetTicks();
+
+    //Score
+    TTF_Font* scoreFont = TTF_OpenFont("assets/fonts/HardSports.ttf", 24);
+    SDL_Color scoreColor = {0,0,0};
+    SDL_Surface* scoreSurface = TTF_RenderText_Solid(scoreFont, "Score: ", scoreColor);
+    scoreTexture = SDL_CreateTextureFromSurface(renderer, scoreSurface);
+    SDL_FreeSurface(scoreSurface);
 
     //Load FootballField
     fieldtextureA = IMG_LoadTexture(renderer, "assets/background.png");
@@ -150,6 +164,10 @@ void Engine::Render()
               });
     //Render all objects
     for (auto obj : gameObjects) obj->Render(renderer);
+
+    //Score
+    SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);
+
 
     SDL_RenderPresent(renderer);
 }

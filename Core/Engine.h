@@ -1,10 +1,11 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 #include "SDL.h"
+#include "SDL_image.h"
+#include "SDL_ttf.h"
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include "SDL_image.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "GameObject.h"
@@ -40,6 +41,9 @@ class Engine
         Uint32 spawnInterval = 1000;
 
         bool gameOver = false;
+        //Score
+        SDL_Texture* scoreTexture;
+        SDL_Rect scoreRect = {100,0,200,70};
 
     private:
         bool running;

@@ -31,7 +31,7 @@
 	<cstdlib>
 	<ctime>
 
-1745654427 source:d:\sonhai\advancedprogramming\henrysdl2game\objects\player.cpp
+1745778419 source:d:\sonhai\advancedprogramming\henrysdl2game\objects\player.cpp
 	"Player.h"
 
 1745657162 d:\sonhai\advancedprogramming\henrysdl2game\objects\player.h
@@ -54,12 +54,13 @@
 	<iostream>
 	"Engine.h"
 
-1745657162 d:\sonhai\advancedprogramming\henrysdl2game\core\engine.h
+1746031850 d:\sonhai\advancedprogramming\henrysdl2game\core\engine.h
 	"SDL.h"
+	"SDL_image.h"
+	"SDL_ttf.h"
 	<iostream>
 	<vector>
 	<algorithm>
-	"SDL_image.h"
 	"Player.h"
 	"Enemy.h"
 	"GameObject.h"
