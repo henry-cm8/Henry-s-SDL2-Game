@@ -19,7 +19,6 @@
 class Engine
 {
     public:
-
         Engine();
         bool Init();
         bool IsRunning() { return running; }
@@ -27,6 +26,7 @@ class Engine
         void Update();
         void Render();
         void Clean();
+        void Reset();
         int score = 0; //=number of opponents offscreen
 
         bool CheckCollision(const SDL_Rect& l, const SDL_Rect& r);
@@ -46,6 +46,11 @@ class Engine
         TTF_Font* scoreFont;
         SDL_Texture* scoreTexture;
         SDL_Rect scoreRect = {100,0,200,70};
+
+        //Game State
+        enum class GameState { MENU, PLAYING, PAUSED, GAMEOVER };
+
+        GameState currentGameState = GameState::MENU;
 
     private:
         bool running;

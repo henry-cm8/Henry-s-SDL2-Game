@@ -58,7 +58,7 @@ bool Engine::Init()
     SDL_RenderPresent(renderer);
 
     //Score
-    scoreFont = TTF_OpenFont("assets/fonts/HardSports.ttf", 24);
+    scoreFont = TTF_OpenFont("assets/fonts/HighlandGothicFLF.ttf", 24);
 
     running = true;
     return true;
@@ -72,19 +72,28 @@ void Engine::HandleEvents()
     {
         if (e.type == SDL_QUIT)
             running = false;
-        messi->HandleInput(e);
+
+        if (currentGameState == GameState::MENU) {
+            if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN) {
+                Reset();
+                currentGameState = GameState::PLAYING;
+            }
+        } else if (currentGameState == GameState::PLAYING) {
+            messi->HandleInput(e);
+            if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE) currentGameState = GameState::MENU;
+        }
+
     }
 
-     //messi->HandleInput();
 }
 
 void Engine::Update()
 {
     Uint32 currentTime = SDL_GetTicks();
-
     deltaTime = (currentTime - lastFrame) / 1000.0f; //to seconds
-
     std::cout<<deltaTime<<std::endl;
+
+    if (currentGameState != GameState::PLAYING) return; //Check if PLAYING?
 
     //Screen floating
     if (!gameOver)
@@ -144,6 +153,10 @@ void Engine::Update()
     lastFrame = currentTime;
 
     //Score Update
+    if (scoreTexture != nullptr) {
+        SDL_DestroyTexture(scoreTexture);
+        scoreTexture = nullptr;
+    }
     std::stringstream ss;
     ss << "Opponent cooked: " << score;
     std::string scoreTextureString = ss.str();
@@ -160,22 +173,35 @@ void Engine::Update()
 
 void Engine::Render()
 {
-    //Football Field: Background
     SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, fieldtextureA, nullptr, &fieldrectA);
-    SDL_RenderCopy(renderer, fieldtextureB, nullptr, &fieldrectB);
 
-    //Score
-    SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);
+    if (currentGameState == GameState::MENU) {
+        //Menu Texts
+        SDL_Color menuColor = {255,255,255}; //black
+        SDL_Surface* menuSurface = TTF_RenderText_Solid(scoreFont, "Press Enter to Start", menuColor);
+        SDL_Texture* menuTexture = SDL_CreateTextureFromSurface(renderer, menuSurface);
+        SDL_Rect menuRect = {500, 310, 280, 120}; //280x100
+        SDL_RenderCopy(renderer, menuTexture, NULL, &menuRect);
+        SDL_FreeSurface(menuSurface);
+        SDL_DestroyTexture(menuTexture);
+    }
+    else if (currentGameState == GameState::PLAYING) {
+        //Football Field: Background
+        SDL_RenderClear(renderer);
+        SDL_RenderCopy(renderer, fieldtextureA, nullptr, &fieldrectA);
+        SDL_RenderCopy(renderer, fieldtextureB, nullptr, &fieldrectB);
 
-    //Sort gameObjects based on Y(collision box)
-    std::sort(gameObjects.begin(), gameObjects.end(), [](GameObject* a, GameObject* b)
-              {
-                  return a->GetCollisionBox().y < b->GetCollisionBox().y;
-              });
-    //Render all objects
-    for (auto obj : gameObjects) obj->Render(renderer);
+        //Score
+        SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);
 
+        //Sort gameObjects based on Y(collision box)
+        std::sort(gameObjects.begin(), gameObjects.end(), [](GameObject* a, GameObject* b)
+                  {
+                      return a->GetCollisionBox().y < b->GetCollisionBox().y;
+                  });
+        //Render all objects
+        for (auto obj : gameObjects) obj->Render(renderer);
+    }
     SDL_RenderPresent(renderer);
 }
 
@@ -200,4 +226,22 @@ void Engine::Clean()
     IMG_Quit();
     SDL_Quit();
     std::cout<<"You have beaten "<<score<<" defenders."<<std::endl;
+}
+
+void Engine::Reset()
+{
+    score = 0;
+    //Reset player
+    delete messi;
+    messi = new Player(renderer);
+    //Reset all enemies
+    for (Enemy* e : enemies) delete e;
+    enemies.clear();
+    //Clear gameObjects & Add Player
+    gameObjects.clear();
+    gameObjects.push_back(messi);
+
+    gameOver = false;
+    lastSpawnTime = SDL_GetTicks();
+    lastFrame = SDL_GetTicks();
 }

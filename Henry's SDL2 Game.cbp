@@ -51,6 +51,8 @@
 		<Unit filename="assets/background.png" />
 		<Unit filename="assets/enemy/ramosshocked.png" />
 		<Unit filename="assets/enemy/ramostackle.png" />
+		<Unit filename="assets/fonts/HardSports.ttf" />
+		<Unit filename="assets/fonts/SPORTCENTRE.ttf" />
 		<Unit filename="assets/grassfield.jpg" />
 		<Unit filename="assets/grasstexture.jpg" />
 		<Unit filename="assets/player/messi.png" />
