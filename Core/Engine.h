@@ -63,6 +63,9 @@ class Engine
         SDL_Window* window;
         SDL_Renderer* renderer;
 
+        //Load Game Background
+        SDL_Texture* background;
+
         //Load FootballField
         SDL_Texture* fieldtextureA;
         SDL_Texture* fieldtextureB;

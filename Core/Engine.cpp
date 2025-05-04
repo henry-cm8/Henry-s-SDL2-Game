@@ -42,6 +42,9 @@ bool Engine::Init()
 
     lastFrame = SDL_GetTicks();
 
+    //Load Game Background
+    background = IMG_LoadTexture(renderer, "assets/gamebackground.png");
+
     //Load FootballField
     fieldtextureA = IMG_LoadTexture(renderer, "assets/background.png");
     fieldtextureB = IMG_LoadTexture(renderer, "assets/background.png");
@@ -52,8 +55,6 @@ bool Engine::Init()
     //Player
     messi = new Player(renderer);
     gameObjects.push_back(messi);
-    //messi->Render(renderer);
-    //SDL_RenderPresent(renderer);
 
     //Score
     scoreFont = TTF_OpenFont("assets/fonts/HighlandGothicFLF.ttf", 24);
@@ -90,7 +91,6 @@ void Engine::HandleEvents()
             messi->HandleInput(e);
             if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE) currentGameState = GameState::MENU;
         }
-
     }
 
 }
@@ -174,20 +174,23 @@ void Engine::Update()
     SDL_SetTextureBlendMode(scoreTexture, SDL_BLENDMODE_BLEND);
     SDL_FreeSurface(scoreSurface);
 
-
+    //Update Player
     messi->Update(currentUpdateTime, deltaTime);
-
 }
 
 void Engine::Render()
 {
+    //Clear Screen
     SDL_SetRenderDrawColor(renderer,0,0,0,255);
     SDL_RenderClear(renderer);
 
-    if (currentGameState == GameState::MENU) {
+    if (currentGameState == GameState::MENU)
+    {
+        SDL_RenderCopy(renderer, background, NULL, NULL);
         playButton->Render(renderer);
     }
-    else if (currentGameState == GameState::PLAYING) {
+    else if (currentGameState == GameState::PLAYING)
+    {
         //Football Field: Background
         SDL_RenderClear(renderer);
         SDL_RenderCopy(renderer, fieldtextureA, nullptr, &fieldrectA);
@@ -232,6 +235,7 @@ void Engine::Clean()
 
 void Engine::Reset()
 {
+    //Reset score
     score = 0;
     //Reset player
     delete messi;
