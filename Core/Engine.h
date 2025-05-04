@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "GameObject.h"
+#include "Button.h"
 
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
@@ -43,14 +44,19 @@ class Engine
 
         bool gameOver = false;
         //Score
-        TTF_Font* scoreFont;
-        SDL_Texture* scoreTexture;
-        SDL_Rect scoreRect = {100,0,200,70};
+        TTF_Font* scoreFont = nullptr;
+        SDL_Texture* scoreTexture = nullptr;
+        SDL_Rect scoreRect;
 
         //Game State
         enum class GameState { MENU, PLAYING, PAUSED, GAMEOVER };
 
         GameState currentGameState = GameState::MENU;
+
+        //Menu
+        Button* playButton = nullptr;
+
+
 
     private:
         bool running;

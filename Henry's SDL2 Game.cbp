@@ -51,7 +51,10 @@
 		<Unit filename="assets/background.png" />
 		<Unit filename="assets/enemy/ramosshocked.png" />
 		<Unit filename="assets/enemy/ramostackle.png" />
+		<Unit filename="assets/fonts/ALBAM___.TTF" />
+		<Unit filename="assets/fonts/ALBAS___.TTF" />
 		<Unit filename="assets/fonts/HardSports.ttf" />
+		<Unit filename="assets/fonts/HighlandGothicFLF.ttf" />
 		<Unit filename="assets/fonts/SPORTCENTRE.ttf" />
 		<Unit filename="assets/grassfield.jpg" />
 		<Unit filename="assets/grasstexture.jpg" />

@@ -3,8 +3,6 @@
 
 Engine::Engine() {}
 
-
-
 bool Engine::Init()
 {
     //SDL Init
@@ -54,11 +52,19 @@ bool Engine::Init()
     //Player
     messi = new Player(renderer);
     gameObjects.push_back(messi);
-    messi->Render(renderer);
-    SDL_RenderPresent(renderer);
+    //messi->Render(renderer);
+    //SDL_RenderPresent(renderer);
 
     //Score
     scoreFont = TTF_OpenFont("assets/fonts/HighlandGothicFLF.ttf", 24);
+    SDL_Texture* scoreTexture;
+    scoreRect = {100,0,200,70};
+
+    //Menu
+    playButton = new Button(renderer, scoreFont, "Play", {540, 330, 200, 60}, {255,255,255,255});
+    playButton->baseColor = {0,0,102,255};
+    playButton->hoverColor = {0,0,255,255};
+    playButton->Update();
 
     running = true;
     return true;
@@ -66,7 +72,6 @@ bool Engine::Init()
 
 void Engine::HandleEvents()
 {
-
     SDL_Event e;
     while (SDL_PollEvent(&e))
     {
@@ -74,7 +79,10 @@ void Engine::HandleEvents()
             running = false;
 
         if (currentGameState == GameState::MENU) {
-            if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN) {
+            playButton->Update();
+            playButton->HandleEvent(e);
+
+            if (playButton->IsClicked()) {
                 Reset();
                 currentGameState = GameState::PLAYING;
             }
@@ -89,8 +97,8 @@ void Engine::HandleEvents()
 
 void Engine::Update()
 {
-    Uint32 currentTime = SDL_GetTicks();
-    deltaTime = (currentTime - lastFrame) / 1000.0f; //to seconds
+    Uint32 currentUpdateTime = SDL_GetTicks();
+    deltaTime = (currentUpdateTime - lastFrame) / 1000.0f; //to seconds
     std::cout<<deltaTime<<std::endl;
 
     if (currentGameState != GameState::PLAYING) return; //Check if PLAYING?
@@ -104,21 +112,21 @@ void Engine::Update()
     }
 
     //Spawn enemies
-    if (currentTime > lastSpawnTime + spawnInterval && !gameOver)
+    if (currentUpdateTime > lastSpawnTime + spawnInterval && !gameOver)
     {
         //spawn new enemy
         Enemy* newEnemy = new Enemy(renderer);
         enemies.push_back(newEnemy);
         gameObjects.push_back(newEnemy);
         std::cout<<"An enemy created"<<std::endl;
-        lastSpawnTime = currentTime;
+        lastSpawnTime = currentUpdateTime;
     }
     //Update enemies
     for (auto it = enemies.begin(); it != enemies.end();)
     {
         Enemy* enemy = *it;
 
-        enemy->Update(currentTime, deltaTime);
+        enemy->Update(currentUpdateTime, deltaTime);
 
         if (gameOver) enemy->shocked=true;
         //Check collision
@@ -150,7 +158,7 @@ void Engine::Update()
             ++it;
         }
     }
-    lastFrame = currentTime;
+    lastFrame = currentUpdateTime;
 
     //Score Update
     if (scoreTexture != nullptr) {
@@ -167,23 +175,17 @@ void Engine::Update()
     SDL_FreeSurface(scoreSurface);
 
 
-    messi->Update(currentTime, deltaTime);
+    messi->Update(currentUpdateTime, deltaTime);
 
 }
 
 void Engine::Render()
 {
+    SDL_SetRenderDrawColor(renderer,0,0,0,255);
     SDL_RenderClear(renderer);
 
     if (currentGameState == GameState::MENU) {
-        //Menu Texts
-        SDL_Color menuColor = {255,255,255}; //black
-        SDL_Surface* menuSurface = TTF_RenderText_Solid(scoreFont, "Press Enter to Start", menuColor);
-        SDL_Texture* menuTexture = SDL_CreateTextureFromSurface(renderer, menuSurface);
-        SDL_Rect menuRect = {500, 310, 280, 120}; //280x100
-        SDL_RenderCopy(renderer, menuTexture, NULL, &menuRect);
-        SDL_FreeSurface(menuSurface);
-        SDL_DestroyTexture(menuTexture);
+        playButton->Render(renderer);
     }
     else if (currentGameState == GameState::PLAYING) {
         //Football Field: Background

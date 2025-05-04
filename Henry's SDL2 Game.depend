@@ -54,7 +54,7 @@
 	<iostream>
 	"Engine.h"
 
-1746118126 d:\sonhai\advancedprogramming\henrysdl2game\core\engine.h
+1746335855 d:\sonhai\advancedprogramming\henrysdl2game\core\engine.h
 	"SDL.h"
 	"SDL_image.h"
 	"SDL_ttf.h"
@@ -65,6 +65,7 @@
 	"Player.h"
 	"Enemy.h"
 	"GameObject.h"
+	"Button.h"
 
 1745657162 d:\sonhai\advancedprogramming\henrysdl2game\objects\\player.h
 	"SDL.h"
@@ -77,7 +78,7 @@
 	"SDL_image.h"
 	"GameObject.h"
 
-1746035062 source:d:\sonhai\advancedprogramming\henrysdl2game\core\engine.cpp
+1746335915 source:d:\sonhai\advancedprogramming\henrysdl2game\core\engine.cpp
 	"Engine.h"
 
 1745633909 d:\sonhai\advancedprogramming\henrysdl2game\objects\\gameobject.h
@@ -92,4 +93,13 @@
 	"SDL.h"
 	"SDL_image.h"
 	<vector>
+
+1746339519 d:\sonhai\advancedprogramming\henrysdl2game\core\button.h
+	"SDL.h"
+	"SDL_image.h"
+	"SDL_ttf.h"
+	<string>
+
+1746339519 source:d:\sonhai\advancedprogramming\henrysdl2game\core\button.cpp
+	"Button.h"
 
