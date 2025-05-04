@@ -5,6 +5,7 @@
 #include "SDL_ttf.h"
 #include <iostream>
 #include <vector>
+#include <string>
 #include <algorithm>
 #include <sstream>
 #include "Player.h"
@@ -58,7 +59,14 @@ class Engine
         Button* instructionButton = nullptr;
         Button* backButton = nullptr;
         Button* quitButton = nullptr;
-
+        //Texts
+        //std::string gameOverLine = "Game Over!";
+        //std::string scoreLine = "You have beaten "+ std::to_string(score) + " defenders.";
+        //SDL_Surface* gameOverLineSurface;
+        //SDL_Surface* scoreLineSurface;
+        SDL_Texture* gameOverLineTexture;
+        SDL_Texture* scoreLineTexture;
+        SDL_Rect gameOverLineRect, scoreLineRect;
 
     private:
         bool running;

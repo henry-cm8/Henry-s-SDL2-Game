@@ -17,6 +17,7 @@
 					<Add directory="Core" />
 					<Add directory="Objects/" />
 					<Add directory="D:/SonHai/AdvancedProgramming/HenrySDL2Game/Objects/" />
+					<Add directory="Core/" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -29,6 +30,7 @@
 					<Add directory="Core" />
 					<Add directory="Objects/" />
 					<Add directory="D:/Son Hai/Advanced Programming/Henry&apos;s SDL2 Game/Objects/" />
+					<Add directory="Core/" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -40,6 +42,8 @@
 			<Add option="-std=c++17" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="Core/Button.cpp" />
+		<Unit filename="Core/Button.h" />
 		<Unit filename="Core/Engine.cpp" />
 		<Unit filename="Core/Engine.h" />
 		<Unit filename="Objects/Enemy.cpp" />
@@ -56,8 +60,10 @@
 		<Unit filename="assets/fonts/HardSports.ttf" />
 		<Unit filename="assets/fonts/HighlandGothicFLF.ttf" />
 		<Unit filename="assets/fonts/SPORTCENTRE.ttf" />
+		<Unit filename="assets/gamebackground.png" />
 		<Unit filename="assets/grassfield.jpg" />
 		<Unit filename="assets/grasstexture.jpg" />
+		<Unit filename="assets/instruction.png" />
 		<Unit filename="assets/player/messi.png" />
 		<Unit filename="assets/player/messidead.png" />
 		<Unit filename="assets/player/messidown.png" />

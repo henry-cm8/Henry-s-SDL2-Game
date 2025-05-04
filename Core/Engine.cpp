@@ -70,16 +70,17 @@ bool Engine::Init()
     instructionButton->baseColor = base;
     instructionButton->hoverColor = hover;
     instructionButton->Update();
-    quitButton = new Button(renderer, scoreFont, "Quit", {540, 510, 200, 60}, {255,255,255,255});
-    quitButton->baseColor = base;
-    quitButton->hoverColor = hover;
-    quitButton->Update();
+
     //Instruction
-    backButton = new Button(renderer, scoreFont, "Main Menu", {60,600, 200, 60}, {255,255,255,255});
+    backButton = new Button(renderer, scoreFont, "Main Menu", { 60, 600, 200, 60}, {255,255,255,255});
     backButton->baseColor = {0,0,102,255};
     backButton->hoverColor = {0,0,255,255};
     instruction = IMG_LoadTexture(renderer, "assets/instruction.png");
-
+    //Quit Button
+    quitButton = new Button(renderer, scoreFont, "Quit", { 540, 510, 200, 60}, {255,255,255,255});
+    quitButton->baseColor = base;
+    quitButton->hoverColor = hover;
+    quitButton->Update();
 
     running = true;
     return true;
@@ -98,9 +99,9 @@ void Engine::HandleEvents()
             playButton->HandleEvent(e);
             instructionButton->Update();
             instructionButton->HandleEvent(e);
+            quitButton->baseRect.y = 510;
             quitButton->Update();
             quitButton->HandleEvent(e);
-
             if (instructionButton->IsClicked()) {
                 currentGameState = GameState::INSTRUCTION;
             }
@@ -112,12 +113,40 @@ void Engine::HandleEvents()
         } else if (currentGameState == GameState::PLAYING) {
             messi->HandleInput(e);
             if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE) currentGameState = GameState::MENU;
+            //if (gameOver) currentGameState = GameState::GAMEOVER;
+            if (gameOver) {
+                //Main Menu
+                backButton->baseRect.x = 540;
+                backButton->baseRect.y = 500;
+                backButton->Update();
+                backButton->HandleEvent(e);
+                //Quit
+                quitButton->baseRect.y = 590;
+                quitButton->Update();
+                quitButton->HandleEvent(e);
+                if (backButton->IsClicked()) currentGameState = GameState::MENU;
+                if (quitButton->IsClicked()) running = false;
+            }
         } else if (currentGameState == GameState::INSTRUCTION) {
             //Update Back Button
+            backButton->baseRect.x = 60;
+            backButton->baseRect.y = 600;
             backButton->Update();
             backButton->HandleEvent(e);
             if (backButton->IsClicked()) currentGameState = GameState::MENU;
-        }
+        } /* else if (currentGameState == GameState::GAMEOVER) {
+            //Main Menu
+            backButton->baseRect.x = 540;
+            backButton->baseRect.y = 500;
+            backButton->Update();
+            backButton->HandleEvent(e);
+            //Quit
+            quitButton->baseRect.y = 590;
+            quitButton->Update();
+            quitButton->HandleEvent(e);
+            if (backButton->IsClicked()) currentGameState = GameState::MENU;
+            if (quitButton->IsClicked()) running = false;
+        } */
     }
 
 }
@@ -163,6 +192,16 @@ void Engine::Update()
             messi->isDead=true;
             enemy->tackled=true;
             //Game Over
+            std::string gameOverLine = "Game Over!";
+            std::string scoreLine = "You have beaten "+ std::to_string(score) + " defenders.";
+            SDL_Surface* gameOverLineSurface = TTF_RenderText_Blended(scoreFont, gameOverLine.c_str(), {255,255,255,255});
+            SDL_Surface* scoreLineSurface = TTF_RenderText_Blended(scoreFont, scoreLine.c_str(), {255,255,255,255});
+            gameOverLineTexture = SDL_CreateTextureFromSurface(renderer, gameOverLineSurface);
+            scoreLineTexture = SDL_CreateTextureFromSurface(renderer, scoreLineSurface);
+            gameOverLineRect = {(SCREEN_WIDTH-gameOverLineSurface->w)/2, 300, gameOverLineSurface->w, gameOverLineSurface->h};
+            scoreLineRect = {(SCREEN_WIDTH-scoreLineSurface->w)/2, gameOverLineRect.y+gameOverLineRect.h+20, scoreLineSurface->w, scoreLineSurface->h};
+            SDL_FreeSurface(gameOverLineSurface);
+            SDL_FreeSurface(scoreLineSurface);
         }
         //Check score
         if (enemy->bounced && !enemy->passedPlayer && enemy->GetRect().x < messi->GetRect().x)
@@ -235,12 +274,28 @@ void Engine::Render()
                   });
         //Render all objects
         for (auto obj : gameObjects) obj->Render(renderer);
+
+        if (gameOver)
+        {
+            SDL_RenderCopy(renderer, gameOverLineTexture, NULL, &gameOverLineRect);
+            SDL_RenderCopy(renderer, scoreLineTexture, NULL, &scoreLineRect);
+            backButton->Render(renderer);
+            quitButton->Render(renderer);
+        }
     }
     else if (currentGameState == GameState::INSTRUCTION)
     {
         SDL_RenderCopy(renderer, instruction, NULL,NULL);
         backButton->Render(renderer);
     }
+    /*
+    else if (currentGameState == GameState::GAMEOVER)
+    {
+        backButton->Render(renderer);
+        quitButton->Render(renderer);
+    }
+    */
+
     SDL_RenderPresent(renderer);
 }
 
