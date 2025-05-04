@@ -42,9 +42,6 @@ bool Engine::Init()
 
     lastFrame = SDL_GetTicks();
 
-    //Load Game Background
-    background = IMG_LoadTexture(renderer, "assets/gamebackground.png");
-
     //Load FootballField
     fieldtextureA = IMG_LoadTexture(renderer, "assets/background.png");
     fieldtextureB = IMG_LoadTexture(renderer, "assets/background.png");
@@ -62,10 +59,27 @@ bool Engine::Init()
     scoreRect = {100,0,200,70};
 
     //Menu
-    playButton = new Button(renderer, scoreFont, "Play", {540, 330, 200, 60}, {255,255,255,255});
-    playButton->baseColor = {0,0,102,255};
-    playButton->hoverColor = {0,0,255,255};
+    SDL_Color base = {0,0,102,255}; //Dark Blue
+    SDL_Color hover = {0,0,255,255}; //Blue
+    background = IMG_LoadTexture(renderer, "assets/gamebackground.png");
+    playButton = new Button(renderer, scoreFont, "Play Game", {540, 330, 200, 60}, {255,255,255,255});
+    playButton->baseColor = base;
+    playButton->hoverColor = hover;
     playButton->Update();
+    instructionButton = new Button(renderer, scoreFont, "Instructions", {540, 420, 200, 60}, {255,255,255,255});
+    instructionButton->baseColor = base;
+    instructionButton->hoverColor = hover;
+    instructionButton->Update();
+    quitButton = new Button(renderer, scoreFont, "Quit", {540, 510, 200, 60}, {255,255,255,255});
+    quitButton->baseColor = base;
+    quitButton->hoverColor = hover;
+    quitButton->Update();
+    //Instruction
+    backButton = new Button(renderer, scoreFont, "Main Menu", {60,600, 200, 60}, {255,255,255,255});
+    backButton->baseColor = {0,0,102,255};
+    backButton->hoverColor = {0,0,255,255};
+    instruction = IMG_LoadTexture(renderer, "assets/instruction.png");
+
 
     running = true;
     return true;
@@ -82,14 +96,27 @@ void Engine::HandleEvents()
         if (currentGameState == GameState::MENU) {
             playButton->Update();
             playButton->HandleEvent(e);
+            instructionButton->Update();
+            instructionButton->HandleEvent(e);
+            quitButton->Update();
+            quitButton->HandleEvent(e);
 
+            if (instructionButton->IsClicked()) {
+                currentGameState = GameState::INSTRUCTION;
+            }
             if (playButton->IsClicked()) {
                 Reset();
                 currentGameState = GameState::PLAYING;
             }
+            if (quitButton->IsClicked()) running = false;
         } else if (currentGameState == GameState::PLAYING) {
             messi->HandleInput(e);
             if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE) currentGameState = GameState::MENU;
+        } else if (currentGameState == GameState::INSTRUCTION) {
+            //Update Back Button
+            backButton->Update();
+            backButton->HandleEvent(e);
+            if (backButton->IsClicked()) currentGameState = GameState::MENU;
         }
     }
 
@@ -188,6 +215,8 @@ void Engine::Render()
     {
         SDL_RenderCopy(renderer, background, NULL, NULL);
         playButton->Render(renderer);
+        instructionButton->Render(renderer);
+        quitButton->Render(renderer);
     }
     else if (currentGameState == GameState::PLAYING)
     {
@@ -206,6 +235,11 @@ void Engine::Render()
                   });
         //Render all objects
         for (auto obj : gameObjects) obj->Render(renderer);
+    }
+    else if (currentGameState == GameState::INSTRUCTION)
+    {
+        SDL_RenderCopy(renderer, instruction, NULL,NULL);
+        backButton->Render(renderer);
     }
     SDL_RenderPresent(renderer);
 }

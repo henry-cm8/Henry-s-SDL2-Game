@@ -49,13 +49,15 @@ class Engine
         SDL_Rect scoreRect;
 
         //Game State
-        enum class GameState { MENU, PLAYING, PAUSED, GAMEOVER };
+        enum class GameState { MENU, PLAYING, PAUSED, GAMEOVER, INSTRUCTION };
 
         GameState currentGameState = GameState::MENU;
 
-        //Menu
+        //Buttons
         Button* playButton = nullptr;
-
+        Button* instructionButton = nullptr;
+        Button* backButton = nullptr;
+        Button* quitButton = nullptr;
 
 
     private:
@@ -63,8 +65,9 @@ class Engine
         SDL_Window* window;
         SDL_Renderer* renderer;
 
-        //Load Game Background
+        //Textures/Backgrounds
         SDL_Texture* background;
+        SDL_Texture* instruction;
 
         //Load FootballField
         SDL_Texture* fieldtextureA;
