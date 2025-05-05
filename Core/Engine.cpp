@@ -81,6 +81,10 @@ bool Engine::Init()
     quitButton->baseColor = base;
     quitButton->hoverColor = hover;
     quitButton->Update();
+    //Game Over
+    againButton = new Button(renderer, scoreFont, "Try Again", {540,500,200,60}, {255,255,255,255});
+    againButton->baseColor = base;
+    againButton->hoverColor = hover;
 
     running = true;
     return true;
@@ -89,12 +93,23 @@ bool Engine::Init()
 void Engine::HandleEvents()
 {
     SDL_Event e;
+
+    if (gameOver)
+    {
+        //Positions
+        quitButton->baseRect.y = 590;
+        //Update and Events
+        quitButton->Update();
+        againButton->Update();
+    }
+
     while (SDL_PollEvent(&e))
     {
         if (e.type == SDL_QUIT)
             running = false;
 
         if (currentGameState == GameState::MENU) {
+            Reset();
             playButton->Update();
             playButton->HandleEvent(e);
             instructionButton->Update();
@@ -106,7 +121,7 @@ void Engine::HandleEvents()
                 currentGameState = GameState::INSTRUCTION;
             }
             if (playButton->IsClicked()) {
-                Reset();
+                //Reset();
                 currentGameState = GameState::PLAYING;
             }
             if (quitButton->IsClicked()) running = false;
@@ -115,16 +130,13 @@ void Engine::HandleEvents()
             if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE) currentGameState = GameState::MENU;
             //if (gameOver) currentGameState = GameState::GAMEOVER;
             if (gameOver) {
-                //Main Menu
-                backButton->baseRect.x = 540;
-                backButton->baseRect.y = 500;
-                backButton->Update();
-                backButton->HandleEvent(e);
-                //Quit
-                quitButton->baseRect.y = 590;
-                quitButton->Update();
+                againButton->HandleEvent(e);
                 quitButton->HandleEvent(e);
-                if (backButton->IsClicked()) currentGameState = GameState::MENU;
+
+                if (againButton->IsClicked()) {
+                        Reset();
+                        currentGameState = GameState::PLAYING;
+                }
                 if (quitButton->IsClicked()) running = false;
             }
         } else if (currentGameState == GameState::INSTRUCTION) {
@@ -134,19 +146,7 @@ void Engine::HandleEvents()
             backButton->Update();
             backButton->HandleEvent(e);
             if (backButton->IsClicked()) currentGameState = GameState::MENU;
-        } /* else if (currentGameState == GameState::GAMEOVER) {
-            //Main Menu
-            backButton->baseRect.x = 540;
-            backButton->baseRect.y = 500;
-            backButton->Update();
-            backButton->HandleEvent(e);
-            //Quit
-            quitButton->baseRect.y = 590;
-            quitButton->Update();
-            quitButton->HandleEvent(e);
-            if (backButton->IsClicked()) currentGameState = GameState::MENU;
-            if (quitButton->IsClicked()) running = false;
-        } */
+        }
     }
 
 }
@@ -202,6 +202,7 @@ void Engine::Update()
             scoreLineRect = {(SCREEN_WIDTH-scoreLineSurface->w)/2, gameOverLineRect.y+gameOverLineRect.h+20, scoreLineSurface->w, scoreLineSurface->h};
             SDL_FreeSurface(gameOverLineSurface);
             SDL_FreeSurface(scoreLineSurface);
+
         }
         //Check score
         if (enemy->bounced && !enemy->passedPlayer && enemy->GetRect().x < messi->GetRect().x)
@@ -279,7 +280,7 @@ void Engine::Render()
         {
             SDL_RenderCopy(renderer, gameOverLineTexture, NULL, &gameOverLineRect);
             SDL_RenderCopy(renderer, scoreLineTexture, NULL, &scoreLineRect);
-            backButton->Render(renderer);
+            againButton->Render(renderer);
             quitButton->Render(renderer);
         }
     }
@@ -288,14 +289,6 @@ void Engine::Render()
         SDL_RenderCopy(renderer, instruction, NULL,NULL);
         backButton->Render(renderer);
     }
-    /*
-    else if (currentGameState == GameState::GAMEOVER)
-    {
-        backButton->Render(renderer);
-        quitButton->Render(renderer);
-    }
-    */
-
     SDL_RenderPresent(renderer);
 }
 

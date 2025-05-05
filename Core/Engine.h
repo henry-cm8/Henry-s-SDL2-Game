@@ -59,11 +59,8 @@ class Engine
         Button* instructionButton = nullptr;
         Button* backButton = nullptr;
         Button* quitButton = nullptr;
-        //Texts
-        //std::string gameOverLine = "Game Over!";
-        //std::string scoreLine = "You have beaten "+ std::to_string(score) + " defenders.";
-        //SDL_Surface* gameOverLineSurface;
-        //SDL_Surface* scoreLineSurface;
+        Button* againButton = nullptr;
+
         SDL_Texture* gameOverLineTexture;
         SDL_Texture* scoreLineTexture;
         SDL_Rect gameOverLineRect, scoreLineRect;
