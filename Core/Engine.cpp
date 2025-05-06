@@ -107,7 +107,6 @@ void Engine::HandleEvents()
 {
     SDL_Event e;
 
-
     //Position
     if (gameOver)
     {
@@ -122,6 +121,16 @@ void Engine::HandleEvents()
     {
         if (e.type == SDL_QUIT)
             running = false;
+        if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_m) {
+            muted = !muted;
+            if (muted) {
+                Mix_VolumeMusic(0); // Mute music
+                Mix_Volume(-1, 0);  // Mute sound effects
+            } else {
+                Mix_VolumeMusic(MIX_MAX_VOLUME); // Restore music volume
+                Mix_Volume(-1, MIX_MAX_VOLUME);  // Restore SFX volume
+            }
+        }
 
         if (currentGameState == GameState::MENU) {
             Reset();

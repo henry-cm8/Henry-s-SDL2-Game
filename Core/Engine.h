@@ -53,6 +53,8 @@ class Engine
         SDL_Texture* scoreTexture = nullptr;
         SDL_Rect scoreRect;
 
+        bool muted = false;
+
         //Game State
         enum class GameState { MENU, PLAYING, PAUSED, GAMEOVER, INSTRUCTION };
 
