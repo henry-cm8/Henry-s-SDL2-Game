@@ -34,13 +34,6 @@ Player::Player(SDL_Renderer* renderer)
 
 void Player::HandleInput(SDL_Event& e)
 {
-    /*
-    const Uint8* keystate = SDL_GetKeyboardState(NULL);
-    if (keystate[SDL_SCANCODE_LEFT]) velX = -1;
-    if (keystate[SDL_SCANCODE_RIGHT]) velX = 1;
-    if (keystate[SDL_SCANCODE_UP]) velY = -1;
-    if (keystate[SDL_SCANCODE_DOWN]) velY = 1;
-    */
     if (e.type == SDL_KEYDOWN && e.key.repeat == 0 && !isMoving)
     {
         if (e.key.keysym.sym == SDLK_UP && currentRow > 0)

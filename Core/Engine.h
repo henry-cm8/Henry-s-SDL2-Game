@@ -1,13 +1,17 @@
 #ifndef ENGINE_H
 #define ENGINE_H
+
 #include "SDL.h"
 #include "SDL_image.h"
 #include "SDL_ttf.h"
+#include "SDL_mixer.h"
+
 #include <iostream>
 #include <vector>
 #include <string>
 #include <algorithm>
 #include <sstream>
+
 #include "Player.h"
 #include "Enemy.h"
 #include "GameObject.h"
@@ -64,6 +68,14 @@ class Engine
         SDL_Texture* gameOverLineTexture;
         SDL_Texture* scoreLineTexture;
         SDL_Rect gameOverLineRect, scoreLineRect;
+
+        //Sounds
+        Mix_Music* cantDelBarca = nullptr;
+        Mix_Music* crowdCheering = nullptr;
+        Mix_Music* halaMadrid = nullptr;
+        bool cantDelBarcaPlaying = false, crowdCheeringPlaying = false, halaMadridPlaying = false, quemirasboboPlaying = false;
+        Mix_Chunk* movementSFX = nullptr;
+        Mix_Chunk* quemirasbobo = nullptr;
 
     private:
         bool running;

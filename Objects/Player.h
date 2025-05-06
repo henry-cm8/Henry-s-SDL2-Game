@@ -22,8 +22,7 @@ class Player : public GameObject
 
         int numFramesLeft;
         int numFramesRight;
-        //int numFramesUp;
-        //int numFramesDown;
+
         float posX;
         float posY;
 

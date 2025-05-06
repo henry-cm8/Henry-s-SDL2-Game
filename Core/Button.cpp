@@ -53,7 +53,6 @@ void Button::Update()
 
     UpdateTextPosition();
 
-    //if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT && hovered) clicked = true;
 }
 
 void Button::UpdateTextPosition()

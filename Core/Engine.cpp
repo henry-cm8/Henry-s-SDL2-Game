@@ -24,6 +24,12 @@ bool Engine::Init()
         SDL_Log("Failed to Initialize TTF: %s", SDL_GetError());
         return false;
     }
+    //SDL_Mixer Init
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+    {
+        SDL_Log("Failed to Initialize SDL_Mixer: %s", SDL_GetError());
+        return false;
+    }
 
     //Create Window
     window = SDL_CreateWindow("Henry's Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
@@ -86,6 +92,13 @@ bool Engine::Init()
     againButton->baseColor = base;
     againButton->hoverColor = hover;
 
+    //Sounds
+    cantDelBarca = Mix_LoadMUS("assets/audio/cantdelbarca.mp3");
+    halaMadrid = Mix_LoadMUS("assets/audio/halamadrid.mp3");
+    crowdCheering = Mix_LoadMUS("assets/audio/crowd.mp3");
+    movementSFX = Mix_LoadWAV("assets/audio/whoosh.wav");
+    quemirasbobo = Mix_LoadWAV("assets/audio/quemirasbobo.wav");
+
     running = true;
     return true;
 }
@@ -94,6 +107,8 @@ void Engine::HandleEvents()
 {
     SDL_Event e;
 
+
+    //Position
     if (gameOver)
     {
         //Positions
@@ -110,6 +125,10 @@ void Engine::HandleEvents()
 
         if (currentGameState == GameState::MENU) {
             Reset();
+            if (!cantDelBarcaPlaying) {
+                Mix_PlayMusic(cantDelBarca, -1);
+                cantDelBarcaPlaying = true;
+            }
             playButton->Update();
             playButton->HandleEvent(e);
             instructionButton->Update();
@@ -121,23 +140,37 @@ void Engine::HandleEvents()
                 currentGameState = GameState::INSTRUCTION;
             }
             if (playButton->IsClicked()) {
-                //Reset();
+                Mix_HaltMusic();
+                cantDelBarcaPlaying = false;
                 currentGameState = GameState::PLAYING;
             }
             if (quitButton->IsClicked()) running = false;
         } else if (currentGameState == GameState::PLAYING) {
+            if (!crowdCheeringPlaying) {
+                Mix_PlayMusic(crowdCheering, -1);
+                crowdCheeringPlaying = true;
+            }
             messi->HandleInput(e);
+            if (messi->isMoving && !gameOver) {
+                if (!Mix_Playing(1)) Mix_PlayChannel(1, quemirasbobo, 0);
+            }
+
             if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE) currentGameState = GameState::MENU;
-            //if (gameOver) currentGameState = GameState::GAMEOVER;
             if (gameOver) {
                 againButton->HandleEvent(e);
                 quitButton->HandleEvent(e);
 
                 if (againButton->IsClicked()) {
                         Reset();
+                        Mix_HaltMusic();
+                        crowdCheeringPlaying = false;
                         currentGameState = GameState::PLAYING;
                 }
-                if (quitButton->IsClicked()) running = false;
+                if (quitButton->IsClicked()) {
+                        Mix_HaltMusic();
+                        cantDelBarcaPlaying = false;
+                        running = false;
+                }
             }
         } else if (currentGameState == GameState::INSTRUCTION) {
             //Update Back Button
@@ -192,6 +225,12 @@ void Engine::Update()
             messi->isDead=true;
             enemy->tackled=true;
             //Game Over
+            if (!halaMadridPlaying) {
+                Mix_PlayMusic(halaMadrid, -1);
+                halaMadridPlaying = true;
+            }
+
+            //Score update
             std::string gameOverLine = "Game Over!";
             std::string scoreLine = "You have beaten "+ std::to_string(score) + " defenders.";
             SDL_Surface* gameOverLineSurface = TTF_RenderText_Blended(scoreFont, gameOverLine.c_str(), {255,255,255,255});
@@ -306,6 +345,11 @@ void Engine::Clean()
     {
         delete e;
     }
+    Mix_FreeMusic(cantDelBarca);
+    Mix_FreeMusic(halaMadrid);
+    Mix_FreeMusic(crowdCheering);
+    Mix_FreeChunk(quemirasbobo);
+    Mix_FreeChunk(movementSFX);
     SDL_DestroyTexture(scoreTexture);
     enemies.clear();
     SDL_DestroyRenderer(renderer);
@@ -329,6 +373,7 @@ void Engine::Reset()
     gameObjects.clear();
     gameObjects.push_back(messi);
 
+    halaMadridPlaying = false;
     gameOver = false;
     lastSpawnTime = SDL_GetTicks();
     lastFrame = SDL_GetTicks();

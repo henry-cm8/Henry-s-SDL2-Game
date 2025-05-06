@@ -17,10 +17,6 @@ Enemy::Enemy(SDL_Renderer* renderer)
 
     srcRect = {0, 0, frameWidth, frameHeight};
 
-    //Field bound
-    //int minY = 0;
-    //int maxY = 720 - frameHeight;
-    //posY = minY + rand() % (maxY - minY + 1);
     posY = 45 + (rand()%3)*225;
     posX = -225;
 
@@ -78,7 +74,6 @@ void Enemy::Update(Uint32 currentTime, float deltaTime) //override
 
 void Enemy::Render(SDL_Renderer* renderer) //override
 {
-    //SDL_RenderCopy(renderer, enemyTex, &srcRect, &dstRect);
     SDL_RenderCopyEx(renderer, enemyTex, &srcRect, &dstRect, 0, nullptr, (direction == -1.0f)? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 }
 
