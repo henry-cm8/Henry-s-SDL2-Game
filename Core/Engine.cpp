@@ -234,6 +234,7 @@ void Engine::Update()
             messi->isDead=true;
             enemy->tackled=true;
             //Game Over
+            Mix_HaltChannel(1);
             if (!halaMadridPlaying) {
                 Mix_PlayMusic(halaMadrid, -1);
                 halaMadridPlaying = true;

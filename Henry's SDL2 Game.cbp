@@ -52,6 +52,11 @@
 		<Unit filename="Objects/GameObject.h" />
 		<Unit filename="Objects/Player.cpp" />
 		<Unit filename="Objects/Player.h" />
+		<Unit filename="assets/audio/cantdelbarca.mp3" />
+		<Unit filename="assets/audio/crowd.mp3" />
+		<Unit filename="assets/audio/halamadrid.mp3" />
+		<Unit filename="assets/audio/quemirasbobo.wav" />
+		<Unit filename="assets/audio/whoosh.wav" />
 		<Unit filename="assets/background.png" />
 		<Unit filename="assets/enemy/ramosshocked.png" />
 		<Unit filename="assets/enemy/ramostackle.png" />
